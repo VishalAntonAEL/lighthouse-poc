@@ -59,8 +59,10 @@ export default function CategoryChart({ manifest }: CategoryChartProps) {
 		},
 		{
 			bucket: "Needs Work",
-			desktop: manifest.summary.devices.desktop.performanceBuckets.needsImprovement,
-			mobile: manifest.summary.devices.mobile.performanceBuckets.needsImprovement,
+			desktop:
+				manifest.summary.devices.desktop.performanceBuckets.needsImprovement,
+			mobile:
+				manifest.summary.devices.mobile.performanceBuckets.needsImprovement,
 		},
 		{
 			bucket: "Poor",

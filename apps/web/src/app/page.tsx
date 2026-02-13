@@ -2,12 +2,19 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { getAuditStatusAction, startAuditRunAction } from "@/app/actions/audit-actions";
+import {
+	getAuditStatusAction,
+	startAuditRunAction,
+} from "@/app/actions/audit-actions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Progress, ProgressLabel, ProgressValue } from "@/components/ui/progress";
+import {
+	Progress,
+	ProgressLabel,
+	ProgressValue,
+} from "@/components/ui/progress";
 import type { AuditJobStatus, AuditProgress } from "@/lib/audit/types";
 
 type JobState = {
@@ -85,7 +92,9 @@ export default function Home() {
 					: "Audit started.",
 			);
 		} catch (error) {
-			setMessage(error instanceof Error ? error.message : "Failed to start audit.");
+			setMessage(
+				error instanceof Error ? error.message : "Failed to start audit.",
+			);
 		} finally {
 			setIsStarting(false);
 		}
@@ -137,7 +146,9 @@ export default function Home() {
 							<div className="flex flex-wrap items-center gap-2">
 								<Badge variant="outline">Job: {jobState.jobId}</Badge>
 								<Badge
-									variant={jobState.status === "failed" ? "destructive" : "secondary"}
+									variant={
+										jobState.status === "failed" ? "destructive" : "secondary"
+									}
 								>
 									{jobState.status}
 								</Badge>
@@ -156,7 +167,9 @@ export default function Home() {
 							</div>
 
 							{jobState.errorMessage ? (
-								<p className="text-destructive text-xs">{jobState.errorMessage}</p>
+								<p className="text-destructive text-xs">
+									{jobState.errorMessage}
+								</p>
 							) : null}
 
 							{jobState.status === "completed" ? (

@@ -36,7 +36,7 @@ export default function RootLayout({
 					<div className="grid h-svh grid-rows-[auto_1fr]">
 						<Header />
 						<TooltipProvider>{children}</TooltipProvider>
-						</div>
+					</div>
 				</Providers>
 			</body>
 		</html>

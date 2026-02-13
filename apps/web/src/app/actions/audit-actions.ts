@@ -1,7 +1,7 @@
 "use server";
 
-import { randomUUID } from "node:crypto";
 import { spawn } from "node:child_process";
+import { randomUUID } from "node:crypto";
 
 import { z } from "zod";
 
@@ -99,7 +99,9 @@ export async function startAuditRunAction(input: {
 	};
 }
 
-export async function getAuditStatusAction(input: { jobId: string }): Promise<AuditJob> {
+export async function getAuditStatusAction(input: {
+	jobId: string;
+}): Promise<AuditJob> {
 	const { jobId } = statusInputSchema.parse(input);
 	const status = await readJobStatus(jobId);
 	if (!status) {

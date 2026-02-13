@@ -3,8 +3,18 @@
 import { LabelList, Pie, PieChart } from "recharts";
 
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import {
+	ChartContainer,
+	ChartTooltip,
+	ChartTooltipContent,
+} from "@/components/ui/chart";
 
 type RoundedPieDatum = {
 	id: string;
@@ -26,16 +36,15 @@ export function RoundedPieChart({
 	data,
 	badgeText,
 }: RoundedPieChartProps) {
-	const chartConfig = data.reduce<Record<string, { label: string; color: string }>>(
-		(config, item) => {
-			config[item.id] = {
-				label: item.label,
-				color: item.color,
-			};
-			return config;
-		},
-		{},
-	);
+	const chartConfig = data.reduce<
+		Record<string, { label: string; color: string }>
+	>((config, item) => {
+		config[item.id] = {
+			label: item.label,
+			color: item.color,
+		};
+		return config;
+	}, {});
 
 	return (
 		<Card className="flex flex-col">
@@ -43,7 +52,10 @@ export function RoundedPieChart({
 				<CardTitle>
 					{title}
 					{badgeText ? (
-						<Badge variant="outline" className="ml-2 border-none bg-muted text-foreground">
+						<Badge
+							variant="outline"
+							className="ml-2 border-none bg-muted text-foreground"
+						>
 							{badgeText}
 						</Badge>
 					) : null}

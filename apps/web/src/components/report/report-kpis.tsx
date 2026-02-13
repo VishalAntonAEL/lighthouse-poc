@@ -27,7 +27,10 @@ function ScoreRow({
 				].map(([name, score]) => (
 					<div key={name as string} className="flex items-center gap-2">
 						<span className="text-muted-foreground text-xs">{name}</span>
-						<Badge className={scoreTone(score as number | null)} variant="outline">
+						<Badge
+							className={scoreTone(score as number | null)}
+							variant="outline"
+						>
 							{formatScore(score as number | null)}
 						</Badge>
 					</div>
@@ -46,19 +49,25 @@ export default function ReportKpis({ manifest }: ReportKpisProps) {
 				</CardHeader>
 				<CardContent className="grid grid-cols-2 gap-3 pt-4">
 					<div>
-						<p className="text-muted-foreground text-xs uppercase">Health Grade</p>
+						<p className="text-muted-foreground text-xs uppercase">
+							Health Grade
+						</p>
 						<p className="font-semibold text-2xl">
 							{manifest.executiveSummary.overallHealthGrade}
 						</p>
 					</div>
 					<div>
-						<p className="text-muted-foreground text-xs uppercase">Overall Score</p>
+						<p className="text-muted-foreground text-xs uppercase">
+							Overall Score
+						</p>
 						<p className="font-semibold text-2xl">
 							{manifest.executiveSummary.overallScore}
 						</p>
 					</div>
 					<div>
-						<p className="text-muted-foreground text-xs uppercase">Pages At Risk</p>
+						<p className="text-muted-foreground text-xs uppercase">
+							Pages At Risk
+						</p>
 						<p className="font-medium text-sm">
 							{manifest.executiveSummary.pagesAtRiskPercent}%
 						</p>
@@ -77,8 +86,14 @@ export default function ReportKpis({ manifest }: ReportKpisProps) {
 					<CardTitle>Category Averages</CardTitle>
 				</CardHeader>
 				<CardContent className="grid gap-2 pt-4">
-					<ScoreRow label="Desktop" scores={manifest.summary.devices.desktop.averages} />
-					<ScoreRow label="Mobile" scores={manifest.summary.devices.mobile.averages} />
+					<ScoreRow
+						label="Desktop"
+						scores={manifest.summary.devices.desktop.averages}
+					/>
+					<ScoreRow
+						label="Mobile"
+						scores={manifest.summary.devices.mobile.averages}
+					/>
 				</CardContent>
 			</Card>
 		</div>

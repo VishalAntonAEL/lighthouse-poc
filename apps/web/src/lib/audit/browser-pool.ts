@@ -1,7 +1,7 @@
+import { promises as fs } from "node:fs";
 import { createServer } from "node:net";
 import os from "node:os";
 import path from "node:path";
-import { promises as fs } from "node:fs";
 
 type BrowserInstance = {
 	id: number;
@@ -145,10 +145,7 @@ export class BrowserPool {
 
 	private async createInstance(id: number): Promise<BrowserInstance> {
 		const port = await getFreePort();
-		const userDataDir = path.join(
-			os.tmpdir(),
-			`lh-chrome-${id}-${Date.now()}`,
-		);
+		const userDataDir = path.join(os.tmpdir(), `lh-chrome-${id}-${Date.now()}`);
 		await fs.mkdir(userDataDir, { recursive: true });
 		this.cleanupDirs.push(userDataDir);
 
@@ -180,7 +177,9 @@ export class BrowserPool {
 		// Wait for CDP HTTP endpoint to be ready
 		await waitForCdp(port, this.options.chromeLaunchTimeout);
 
-		console.log(`[BrowserPool] Chrome ${id} ready on port ${port} (pid ${proc.pid})`);
+		console.log(
+			`[BrowserPool] Chrome ${id} ready on port ${port} (pid ${proc.pid})`,
+		);
 
 		return {
 			id,
@@ -236,10 +235,7 @@ export class BrowserPool {
 			try {
 				await this.restartInstance(id);
 			} catch (error) {
-				console.error(
-					`[BrowserPool] Failed to restart Chrome ${id}:`,
-					error,
-				);
+				console.error(`[BrowserPool] Failed to restart Chrome ${id}:`, error);
 				// Release and let the caller retry
 				this.release(id);
 				throw error;

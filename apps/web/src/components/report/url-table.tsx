@@ -23,11 +23,18 @@ type UrlTableProps = {
 	onSelect: (page: AuditPageResult) => void;
 };
 
-function getPerformanceScore(page: AuditPageResult, device: "desktop" | "mobile") {
+function getPerformanceScore(
+	page: AuditPageResult,
+	device: "desktop" | "mobile",
+) {
 	return page.devices[device].scores?.performance ?? null;
 }
 
-export default function UrlTable({ pages, selectedSlug, onSelect }: UrlTableProps) {
+export default function UrlTable({
+	pages,
+	selectedSlug,
+	onSelect,
+}: UrlTableProps) {
 	const [query, setQuery] = useState("");
 	const [sortBy, setSortBy] = useState("worst");
 	const [statusFilter, setStatusFilter] = useState("all");
@@ -123,7 +130,9 @@ export default function UrlTable({ pages, selectedSlug, onSelect }: UrlTableProp
 									onClick={() => onSelect(page)}
 									className={isSelected ? "bg-muted" : "cursor-pointer"}
 								>
-									<TableCell className="max-w-[24rem] truncate">{page.url}</TableCell>
+									<TableCell className="max-w-[24rem] truncate">
+										{page.url}
+									</TableCell>
 									<TableCell>
 										<Badge
 											variant="outline"
@@ -135,7 +144,9 @@ export default function UrlTable({ pages, selectedSlug, onSelect }: UrlTableProp
 									<TableCell>
 										<Badge
 											variant="outline"
-											className={scoreTone(getPerformanceScore(page, "desktop"))}
+											className={scoreTone(
+												getPerformanceScore(page, "desktop"),
+											)}
 										>
 											{formatScore(getPerformanceScore(page, "desktop"))}
 										</Badge>

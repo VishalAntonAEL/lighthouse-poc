@@ -53,8 +53,7 @@ function hasIgnoredExtension(input: string) {
 }
 
 function extractLocValues(xml: string) {
-	const matches = [...xml.matchAll(/<loc>([\s\S]*?)<\/loc>/gi
-)];
+	const matches = [...xml.matchAll(/<loc>([\s\S]*?)<\/loc>/gi)];
 	return matches
 		.map((match) => match[1]?.trim() ?? "")
 		.filter(Boolean)
@@ -225,17 +224,22 @@ async function crawlRecursively(
 	};
 }
 
-export async function discoverUrls(options: CrawlOptions): Promise<CrawlResult> {
+export async function discoverUrls(
+	options: CrawlOptions,
+): Promise<CrawlResult> {
 	const crawlTimeoutMs = options.timeoutMs ?? DEFAULT_CRAWL_TIMEOUT_MS;
-	const sitemapTimeoutMs = options.sitemapTimeoutMs ?? DEFAULT_SITEMAP_TIMEOUT_MS;
-	
+	const sitemapTimeoutMs =
+		options.sitemapTimeoutMs ?? DEFAULT_SITEMAP_TIMEOUT_MS;
+
 	const normalizedBaseUrl = normalizeUrl(options.baseUrl);
 	if (!normalizedBaseUrl) {
 		throw new Error("Invalid base URL.");
 	}
 
 	console.log(`[Crawler] Starting discovery for ${normalizedBaseUrl}`);
-	console.log(`[Crawler] Crawl timeout: ${crawlTimeoutMs}ms, Sitemap timeout: ${sitemapTimeoutMs}ms`);
+	console.log(
+		`[Crawler] Crawl timeout: ${crawlTimeoutMs}ms, Sitemap timeout: ${sitemapTimeoutMs}ms`,
+	);
 
 	const sitemapUrls = await fetchSitemapUrls(
 		normalizedBaseUrl,
@@ -260,7 +264,9 @@ export async function discoverUrls(options: CrawlOptions): Promise<CrawlResult> 
 		options.onProgress,
 	);
 
-	console.log(`[Crawler] Crawled ${crawlResult.crawled} pages, discovered ${crawlResult.discovered.size} total URLs`);
+	console.log(
+		`[Crawler] Crawled ${crawlResult.crawled} pages, discovered ${crawlResult.discovered.size} total URLs`,
+	);
 
 	const urls = [...crawlResult.discovered].slice(0, options.maxPages);
 	if (!urls.includes(normalizedBaseUrl)) {

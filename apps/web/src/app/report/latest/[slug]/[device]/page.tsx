@@ -28,7 +28,9 @@ export default async function ArtifactReportPage({
 		<div className="h-screen w-full bg-background">
 			<div className="flex h-full flex-col">
 				<div className="flex items-center justify-between border-b px-4 py-2">
-					<p className="font-medium text-sm">{slug} ({device})</p>
+					<p className="font-medium text-sm">
+						{slug} ({device})
+					</p>
 					<a href="/report/latest" className="text-xs underline">
 						Back to consolidated report
 					</a>

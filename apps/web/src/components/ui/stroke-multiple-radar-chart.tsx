@@ -3,8 +3,18 @@
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts";
 
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import {
+	ChartContainer,
+	ChartTooltip,
+	ChartTooltipContent,
+} from "@/components/ui/chart";
 
 type RadarDatum = {
 	category: string;
@@ -42,7 +52,10 @@ export function StrokeMultipleRadarChart({
 				<CardTitle>
 					{title}
 					{badgeText ? (
-						<Badge variant="outline" className="ml-2 border-none bg-muted text-foreground">
+						<Badge
+							variant="outline"
+							className="ml-2 border-none bg-muted text-foreground"
+						>
 							{badgeText}
 						</Badge>
 					) : null}
@@ -50,7 +63,10 @@ export function StrokeMultipleRadarChart({
 				<CardDescription>{description}</CardDescription>
 			</CardHeader>
 			<CardContent className="pb-0">
-				<ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[280px]">
+				<ChartContainer
+					config={chartConfig}
+					className="mx-auto aspect-square max-h-[280px]"
+				>
 					<RadarChart data={data}>
 						<ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 						<PolarAngleAxis dataKey="category" />

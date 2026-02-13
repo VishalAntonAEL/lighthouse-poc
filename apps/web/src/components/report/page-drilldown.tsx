@@ -11,13 +11,7 @@ type PageDrilldownProps = {
 	page: AuditPageResult | null;
 };
 
-function DevicePanel({
-	device,
-	slug,
-}: {
-	device: DeviceResult;
-	slug: string;
-}) {
+function DevicePanel({ device, slug }: { device: DeviceResult; slug: string }) {
 	const detailLink = `/report/latest/${slug}/${device.device}`;
 
 	return (
@@ -31,7 +25,10 @@ function DevicePanel({
 				].map(([label, score]) => (
 					<div key={label as string} className="rounded-none border p-2">
 						<p className="text-muted-foreground text-xs">{label}</p>
-						<Badge className={scoreTone(score as number | null)} variant="outline">
+						<Badge
+							className={scoreTone(score as number | null)}
+							variant="outline"
+						>
 							{formatScore(score as number | null)}
 						</Badge>
 					</div>
@@ -56,7 +53,9 @@ function DevicePanel({
 			<div className="grid gap-2">
 				<p className="font-medium text-xs uppercase">Priority Issues</p>
 				{device.opportunities.length === 0 ? (
-					<p className="text-muted-foreground text-xs">No high-priority issues.</p>
+					<p className="text-muted-foreground text-xs">
+						No high-priority issues.
+					</p>
 				) : (
 					<div className="grid gap-2">
 						{device.opportunities.map((issue) => (
@@ -68,7 +67,9 @@ function DevicePanel({
 									</Badge>
 								</div>
 								{issue.displayValue ? (
-									<p className="text-muted-foreground text-xs">{issue.displayValue}</p>
+									<p className="text-muted-foreground text-xs">
+										{issue.displayValue}
+									</p>
 								) : null}
 								{issue.description ? (
 									<p className="mt-1 text-xs">{issue.description}</p>

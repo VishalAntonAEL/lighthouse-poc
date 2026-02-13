@@ -64,7 +64,9 @@ export async function readJobStatus(jobId: string) {
 export async function findActiveJob() {
 	await ensureAuditDataDirectories();
 	const entries = await fs.readdir(AUDIT_JOBS_ROOT, { withFileTypes: true });
-	const dirs = entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name);
+	const dirs = entries
+		.filter((entry) => entry.isDirectory())
+		.map((entry) => entry.name);
 
 	for (const dir of dirs) {
 		const status = await readJobStatus(dir);
@@ -79,7 +81,10 @@ export async function findActiveJob() {
 	return null;
 }
 
-export async function writeJobManifest(jobId: string, manifest: AuditRunManifest) {
+export async function writeJobManifest(
+	jobId: string,
+	manifest: AuditRunManifest,
+) {
 	await fs.writeFile(
 		getJobManifestPath(jobId),
 		JSON.stringify(manifest, null, 2),
@@ -99,7 +104,10 @@ export async function publishLatestFromJob(jobId: string) {
 
 export async function readLatestManifest() {
 	try {
-		const data = await fs.readFile(path.join(AUDIT_LATEST_ROOT, "manifest.json"), "utf8");
+		const data = await fs.readFile(
+			path.join(AUDIT_LATEST_ROOT, "manifest.json"),
+			"utf8",
+		);
 		return JSON.parse(data) as AuditRunManifest;
 	} catch {
 		return null;
@@ -114,7 +122,10 @@ export function isValidDevice(input: string): input is "desktop" | "mobile" {
 	return input === "desktop" || input === "mobile";
 }
 
-export async function readLatestArtifactHtml(slug: string, device: "desktop" | "mobile") {
+export async function readLatestArtifactHtml(
+	slug: string,
+	device: "desktop" | "mobile",
+) {
 	if (!isValidSlug(slug)) {
 		return null;
 	}

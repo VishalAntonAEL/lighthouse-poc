@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
+import { getLatestManifestAction } from "@/app/actions/audit-actions";
 import PageDrilldown from "@/components/report/page-drilldown";
 import ReportKpis from "@/components/report/report-kpis";
 import RunMeta from "@/components/report/run-meta";
@@ -12,7 +12,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RoundedPieChart } from "@/components/ui/rounded-pie-chart";
 import { StrokeMultipleRadarChart } from "@/components/ui/stroke-multiple-radar-chart";
 import { ValueLineBarChart } from "@/components/ui/value-line-bar-chart";
-import { getLatestManifestAction } from "@/app/actions/audit-actions";
 import type { AuditPageResult, AuditRunManifest } from "@/lib/audit/types";
 
 type LoadState =
@@ -46,7 +45,8 @@ export default function LatestReportView() {
 		} catch (error) {
 			setLoadState({
 				status: "error",
-				message: error instanceof Error ? error.message : "Unable to load report.",
+				message:
+					error instanceof Error ? error.message : "Unable to load report.",
 			});
 		}
 	}
@@ -59,13 +59,18 @@ export default function LatestReportView() {
 		if (loadState.status !== "loaded") {
 			return null;
 		}
-		return loadState.manifest.pages.find((page) => page.slug === selectedSlug) ?? null;
+		return (
+			loadState.manifest.pages.find((page) => page.slug === selectedSlug) ??
+			null
+		);
 	}, [loadState, selectedSlug]);
 
 	if (loadState.status === "loading") {
 		return (
 			<div className="container mx-auto max-w-7xl px-4 py-4">
-				<p className="text-muted-foreground text-xs">Loading latest report...</p>
+				<p className="text-muted-foreground text-xs">
+					Loading latest report...
+				</p>
 			</div>
 		);
 	}
@@ -141,7 +146,10 @@ export default function LatestReportView() {
 					<Button variant="outline" onClick={() => void load()}>
 						Refresh
 					</Button>
-					<a href="/" className="inline-flex h-8 items-center border px-2.5 text-xs">
+					<a
+						href="/"
+						className="inline-flex h-8 items-center border px-2.5 text-xs"
+					>
 						New Audit
 					</a>
 				</div>
@@ -178,7 +186,9 @@ export default function LatestReportView() {
 				</CardHeader>
 				<CardContent className="grid gap-2 pt-4">
 					{exec.topRiskThemes.length === 0 ? (
-						<p className="text-muted-foreground text-xs">No recurring risk themes found.</p>
+						<p className="text-muted-foreground text-xs">
+							No recurring risk themes found.
+						</p>
 					) : (
 						exec.topRiskThemes.map((issue) => (
 							<div key={issue.id} className="grid gap-1 border p-2">
@@ -190,7 +200,9 @@ export default function LatestReportView() {
 									</div>
 								</div>
 								{issue.description ? (
-									<p className="text-muted-foreground text-xs">{issue.description}</p>
+									<p className="text-muted-foreground text-xs">
+										{issue.description}
+									</p>
 								) : null}
 							</div>
 						))

@@ -29,7 +29,9 @@ function average(values: number[]) {
 		return null;
 	}
 
-	return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+	return Math.round(
+		values.reduce((sum, value) => sum + value, 0) / values.length,
+	);
 }
 
 function toDistribution(scores: Array<number | null>): ScoreDistribution {
@@ -220,14 +222,16 @@ function buildExecutiveSummary(summary: AuditSummary): ExecutiveSummary {
 	const totalDevicePages = summary.totalPages * 2 || 1;
 	const pagesAtRiskPercent = Math.round((riskPages / totalDevicePages) * 100);
 
-	const topRiskThemes: TopRiskTheme[] = summary.topIssues.slice(0, 8).map((issue) => ({
-		id: issue.id,
-		title: issue.title,
-		description: issue.description,
-		count: issue.count,
-		severity: severityFor(issue.worstScore),
-		worstScore: issue.worstScore,
-	}));
+	const topRiskThemes: TopRiskTheme[] = summary.topIssues
+		.slice(0, 8)
+		.map((issue) => ({
+			id: issue.id,
+			title: issue.title,
+			description: issue.description,
+			count: issue.count,
+			severity: severityFor(issue.worstScore),
+			worstScore: issue.worstScore,
+		}));
 
 	const categoryComparison: DeviceCategoryComparison[] = [
 		{

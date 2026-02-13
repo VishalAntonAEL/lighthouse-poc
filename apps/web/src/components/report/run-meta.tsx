@@ -22,16 +22,21 @@ export default function RunMeta({ manifest }: RunMetaProps) {
 				</div>
 				<div>
 					<p className="text-muted-foreground text-xs uppercase">Started</p>
-					<p className="font-medium text-xs">{formatDate(manifest.startedAt)}</p>
+					<p className="font-medium text-xs">
+						{formatDate(manifest.startedAt)}
+					</p>
 				</div>
 				<div>
 					<p className="text-muted-foreground text-xs uppercase">Finished</p>
-					<p className="font-medium text-xs">{formatDate(manifest.finishedAt)}</p>
+					<p className="font-medium text-xs">
+						{formatDate(manifest.finishedAt)}
+					</p>
 				</div>
 				<div>
 					<p className="text-muted-foreground text-xs uppercase">Coverage</p>
 					<p className="font-medium text-xs">
-						{manifest.summary.totalPages}/{manifest.summary.discoveredPages} pages audited
+						{manifest.summary.totalPages}/{manifest.summary.discoveredPages}{" "}
+						pages audited
 					</p>
 				</div>
 			</CardContent>

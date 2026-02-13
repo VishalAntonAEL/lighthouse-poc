@@ -36,7 +36,10 @@ function createRunId() {
 	return `${timestamp}-${randomUUID().slice(0, 8)}`;
 }
 
-async function updateStatus(jobId: string, updater: (job: AuditJob) => AuditJob) {
+async function updateStatus(
+	jobId: string,
+	updater: (job: AuditJob) => AuditJob,
+) {
 	const current = await readJobStatus(jobId);
 	if (!current) {
 		return;
@@ -52,14 +55,14 @@ async function run() {
 	const maxPages = getIntArg("--max-pages", 2000);
 	const concurrency = getIntArg("--concurrency", 5);
 	const browserPoolSize = getIntArg("--browser-pool-size", 0); // 0 = auto
-	
+
 	// Timeout configurations (all in milliseconds)
 	const crawlTimeout = getIntArg("--crawl-timeout", 30_000);
 	const sitemapTimeout = getIntArg("--sitemap-timeout", 15_000);
 	const cdpConnectTimeout = getIntArg("--cdp-timeout", 60_000);
 	const pageNavigationTimeout = getIntArg("--page-timeout", 60_000);
 	const lighthouseAuditTimeout = getIntArg("--audit-timeout", 90_000);
-	
+
 	// Retry configuration
 	const maxRetries = getIntArg("--max-retries", 3);
 
@@ -79,7 +82,9 @@ async function run() {
 	console.log(`[Worker] Base URL: ${normalizedBaseUrl}`);
 	console.log(`[Worker] Max pages: ${maxPages}, Concurrency: ${concurrency}`);
 	console.log(`[Worker] Browser pool size: ${browserPoolSize || "auto"}`);
-	console.log(`[Worker] Timeouts: crawl=${crawlTimeout}ms, sitemap=${sitemapTimeout}ms, cdp=${cdpConnectTimeout}ms, page=${pageNavigationTimeout}ms, audit=${lighthouseAuditTimeout}ms`);
+	console.log(
+		`[Worker] Timeouts: crawl=${crawlTimeout}ms, sitemap=${sitemapTimeout}ms, cdp=${cdpConnectTimeout}ms, page=${pageNavigationTimeout}ms, audit=${lighthouseAuditTimeout}ms`,
+	);
 	console.log(`[Worker] Max retries: ${maxRetries}`);
 
 	await createJobDirectory(jobId);

@@ -10,8 +10,8 @@ import type {
 	CategoryScores,
 	DeviceResult,
 	OpportunitySummary,
-	TimeoutConfig,
 	RetryConfig,
+	TimeoutConfig,
 } from "./types";
 
 // ---------------------------------------------------------------------------
@@ -155,18 +155,18 @@ function getOpportunities(lhr: Record<string, unknown>): OpportunitySummary[] {
  * Extract the final screenshot from a Lighthouse result (base64 data-URI).
  * Lighthouse already captures a screenshot during every run.
  */
-function extractScreenshotFromLhr(
-	lhr: Record<string, unknown>,
-): Buffer | null {
+function extractScreenshotFromLhr(lhr: Record<string, unknown>): Buffer | null {
 	const audits = lhr.audits as Record<string, unknown> | undefined;
 	if (!audits) {
 		return null;
 	}
 
 	// Try "final-screenshot" first (always present)
-	const finalScreenshot = audits["final-screenshot"] as {
-		details?: { data?: string };
-	} | undefined;
+	const finalScreenshot = audits["final-screenshot"] as
+		| {
+				details?: { data?: string };
+		  }
+		| undefined;
 	const dataUri = finalScreenshot?.details?.data;
 
 	if (typeof dataUri === "string" && dataUri.startsWith("data:image/")) {
@@ -175,9 +175,11 @@ function extractScreenshotFromLhr(
 	}
 
 	// Try "full-page-screenshot"
-	const fullPage = audits["full-page-screenshot"] as {
-		details?: { screenshot?: { data?: string } };
-	} | undefined;
+	const fullPage = audits["full-page-screenshot"] as
+		| {
+				details?: { screenshot?: { data?: string } };
+		  }
+		| undefined;
 	const fullUri = fullPage?.details?.screenshot?.data;
 
 	if (typeof fullUri === "string" && fullUri.startsWith("data:image/")) {
@@ -292,12 +294,7 @@ function lighthouseConfigFor(device: "desktop" | "mobile") {
 	return {
 		extends: "lighthouse:default",
 		settings: {
-			onlyCategories: [
-				"performance",
-				"accessibility",
-				"best-practices",
-				"seo",
-			],
+			onlyCategories: ["performance", "accessibility", "best-practices", "seo"],
 			formFactor: "mobile",
 		},
 	};
@@ -494,15 +491,14 @@ export async function runLighthouseForUrls(
 	};
 
 	// Pool size: default to concurrency (one Chrome per concurrent audit)
-	const poolSize =
-		options.browserPoolSize ?? Math.max(options.concurrency, 2);
+	const poolSize = options.browserPoolSize ?? Math.max(options.concurrency, 2);
 
 	console.log(`[Lighthouse] Auditing ${urls.length} URLs`);
 	console.log(
 		`[Lighthouse] concurrency=${options.concurrency}  poolSize=${poolSize}`,
 	);
-	console.log(`[Lighthouse] timeouts:`, timeouts);
-	console.log(`[Lighthouse] retry:`, retryConfig);
+	console.log("[Lighthouse] timeouts:", timeouts);
+	console.log("[Lighthouse] retry:", retryConfig);
 
 	// Initialize the browser pool (just Chrome processes + ports, no Playwright)
 	const pool = new BrowserPool({
