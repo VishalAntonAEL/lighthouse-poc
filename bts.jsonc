@@ -9,6 +9,7 @@
 // Add new addons with: bun create better-t-stack add
 // This file is safe to delete
 
+
 {
   "$schema": "https://r2.better-t-stack.dev/schema.json",
   "version": "3.21.0",
