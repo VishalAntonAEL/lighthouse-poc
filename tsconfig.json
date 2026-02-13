@@ -1,0 +1,3 @@
+{
+  "extends": "@lighthouse-poc/config/tsconfig.base.json"
+}
