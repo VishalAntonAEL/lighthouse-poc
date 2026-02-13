@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "lighthouse-poc",
-	description: "lighthouse-poc",
+	title: "Website Performance Audits - Lighthouse Reports",
+	description: "Professional Lighthouse audit reports with executive-friendly performance metrics, risk analysis, and actionable insights for your website.",
 };
 
 export default function RootLayout({

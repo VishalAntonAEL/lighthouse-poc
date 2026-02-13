@@ -81,111 +81,143 @@ export default function UrlTable({
 	return (
 		<Card>
 			<CardHeader className="border-b">
-				<CardTitle>URL Drilldown Table</CardTitle>
+				<CardTitle>All Pages Performance</CardTitle>
+				<p className="text-sm text-muted-foreground mt-1">Click a page to view detailed insights</p>
 			</CardHeader>
-			<CardContent className="grid gap-3 pt-4">
-				<div className="grid gap-2 md:grid-cols-[1fr_auto_auto]">
+			<CardContent className="pt-6">
+				<div className="grid gap-4 mb-6">
 					<Input
-						placeholder="Search by URL"
+						placeholder="🔍 Search pages by URL..."
 						value={query}
 						onChange={(event) => setQuery(event.target.value)}
+						className="h-10"
 					/>
-					<select
-						className="h-8 border bg-background px-2 text-xs"
-						value={sortBy}
-						onChange={(event) => setSortBy(event.target.value)}
-					>
-						<option value="worst">Sort: Worst first</option>
-						<option value="best">Sort: Best first</option>
-						<option value="url">Sort: URL</option>
-					</select>
-					<select
-						className="h-8 border bg-background px-2 text-xs"
-						value={statusFilter}
-						onChange={(event) => setStatusFilter(event.target.value)}
-					>
-						<option value="all">Status: All</option>
-						<option value="ok">Status: Success only</option>
-						<option value="errors">Status: Any errors</option>
-					</select>
+					<div className="grid gap-2 grid-cols-2 sm:grid-cols-3 gap-2">
+						<div>
+							<label className="text-xs font-medium text-muted-foreground block mb-2">Sort By</label>
+							<select
+								className="w-full h-9 border bg-background px-3 text-xs rounded-md"
+								value={sortBy}
+								onChange={(event) => setSortBy(event.target.value)}
+							>
+								<option value="worst">Worst First</option>
+								<option value="best">Best First</option>
+								<option value="url">By URL</option>
+							</select>
+						</div>
+						<div>
+							<label className="text-xs font-medium text-muted-foreground block mb-2">Status</label>
+							<select
+								className="w-full h-9 border bg-background px-3 text-xs rounded-md"
+								value={statusFilter}
+								onChange={(event) => setStatusFilter(event.target.value)}
+							>
+								<option value="all">All</option>
+								<option value="ok">Success Only</option>
+								<option value="errors">With Errors</option>
+							</select>
+						</div>
+						<div>
+							<label className="text-xs font-medium text-muted-foreground block mb-2">Showing</label>
+							<div className="h-9 flex items-center px-3 border rounded-md text-xs bg-muted text-muted-foreground font-medium">
+								{filtered.length} {filtered.length === 1 ? 'page' : 'pages'}
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<Table>
-					<TableHeader>
-						<TableRow>
-							<TableHead>URL</TableHead>
-							<TableHead>Combined</TableHead>
-							<TableHead>Desktop Perf</TableHead>
-							<TableHead>Mobile Perf</TableHead>
-							<TableHead>Desktop Status</TableHead>
-							<TableHead>Mobile Status</TableHead>
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						{filtered.map((page) => {
-							const isSelected = page.slug === selectedSlug;
-							return (
-								<TableRow
-									key={page.slug}
-									onClick={() => onSelect(page)}
-									className={isSelected ? "bg-muted" : "cursor-pointer"}
-								>
-									<TableCell className="max-w-[24rem] truncate">
-										{page.url}
-									</TableCell>
-									<TableCell>
-										<Badge
-											variant="outline"
-											className={scoreTone(page.combinedScore)}
-										>
-											{formatScore(page.combinedScore)}
-										</Badge>
-									</TableCell>
-									<TableCell>
-										<Badge
-											variant="outline"
-											className={scoreTone(
-												getPerformanceScore(page, "desktop"),
-											)}
-										>
-											{formatScore(getPerformanceScore(page, "desktop"))}
-										</Badge>
-									</TableCell>
-									<TableCell>
-										<Badge
-											variant="outline"
-											className={scoreTone(getPerformanceScore(page, "mobile"))}
-										>
-											{formatScore(getPerformanceScore(page, "mobile"))}
-										</Badge>
-									</TableCell>
-									<TableCell>
-										<Badge
-											variant={
-												page.devices.desktop.status === "success"
-													? "secondary"
-													: "destructive"
-											}
-										>
-											{page.devices.desktop.status}
-										</Badge>
-									</TableCell>
-									<TableCell>
-										<Badge
-											variant={
-												page.devices.mobile.status === "success"
-													? "secondary"
-													: "destructive"
-											}
-										>
-											{page.devices.mobile.status}
-										</Badge>
-									</TableCell>
+				{filtered.length === 0 ? (
+					<div className="text-center py-12">
+						<p className="text-muted-foreground text-sm">No pages match your filters</p>
+					</div>
+				) : (
+					<div className="overflow-x-auto">
+						<Table>
+							<TableHeader>
+								<TableRow className="hover:bg-transparent">
+									<TableHead className="font-semibold">Page URL</TableHead>
+									<TableHead className="text-center font-semibold">Combined Score</TableHead>
+									<TableHead className="text-center font-semibold">Desktop</TableHead>
+									<TableHead className="text-center font-semibold">Mobile</TableHead>
+									<TableHead className="text-center font-semibold">Status</TableHead>
 								</TableRow>
-							);
-						})}
-					</TableBody>
-				</Table>
+							</TableHeader>
+							<TableBody>
+								{filtered.map((page) => {
+									const isSelected = page.slug === selectedSlug;
+									const desktopScore = getPerformanceScore(page, "desktop");
+									const mobileScore = getPerformanceScore(page, "mobile");
+									
+									return (
+										<TableRow
+											key={page.slug}
+											onClick={() => onSelect(page)}
+											className={`cursor-pointer transition-colors ${
+												isSelected 
+													? "bg-primary/5 border-primary/50" 
+													: "hover:bg-muted/50"
+											}`}
+										>
+											<TableCell className="max-w-[300px]">
+												<div className="font-medium text-sm truncate hover:text-clip">
+													{page.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+												</div>
+											</TableCell>
+											<TableCell className="text-center">
+												<Badge
+													variant="outline"
+													className={`${scoreTone(page.combinedScore)} font-bold text-base`}
+												>
+													{formatScore(page.combinedScore)}
+												</Badge>
+											</TableCell>
+											<TableCell className="text-center">
+												<Badge
+													variant="outline"
+													className={`${scoreTone(desktopScore)} font-semibold`}
+												>
+													{formatScore(desktopScore)}
+												</Badge>
+											</TableCell>
+											<TableCell className="text-center">
+												<Badge
+													variant="outline"
+													className={`${scoreTone(mobileScore)} font-semibold`}
+												>
+													{formatScore(mobileScore)}
+												</Badge>
+											</TableCell>
+											<TableCell className="text-center">
+												<div className="flex items-center justify-center gap-1">
+													<Badge
+														variant={
+															page.devices.desktop.status === "success"
+																? "secondary"
+																: "destructive"
+														}
+														className="text-xs"
+													>
+														{page.devices.desktop.status === "success" ? "✓" : "✕"} D
+													</Badge>
+													<Badge
+														variant={
+															page.devices.mobile.status === "success"
+																? "secondary"
+																: "destructive"
+														}
+														className="text-xs"
+													>
+														{page.devices.mobile.status === "success" ? "✓" : "✕"} M
+													</Badge>
+												</div>
+											</TableCell>
+										</TableRow>
+									);
+								})}
+							</TableBody>
+						</Table>
+					</div>
+				)}
 			</CardContent>
 		</Card>
 	);
