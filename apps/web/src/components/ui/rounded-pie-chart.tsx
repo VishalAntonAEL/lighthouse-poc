@@ -2,102 +2,80 @@
 
 import { LabelList, Pie, PieChart } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
-export const description = "A pie chart with a label list";
-
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
-];
-
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "var(--chart-1)",
-  },
-  safari: {
-    label: "Safari",
-    color: "var(--chart-2)",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
-  },
+type RoundedPieDatum = {
+	id: string;
+	label: string;
+	value: number;
+	color: string;
 };
 
-export function RoundedPieChart() {
-  return (
-    <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>
-          Pie Chart
-          <Badge
-            variant="outline"
-            className="text-green-500 bg-green-500/10 border-none ml-2"
-          >
-            <TrendingUp className="h-4 w-4" />
-            <span>5.2%</span>
-          </Badge>
-        </CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="[&_.recharts-text]:fill-background mx-auto aspect-square max-h-[250px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              content={<ChartTooltipContent nameKey="visitors" hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              innerRadius={30}
-              dataKey="visitors"
-              radius={10}
-              cornerRadius={8}
-              paddingAngle={4}
-            >
-              <LabelList
-                dataKey="visitors"
-                stroke="none"
-                fontSize={12}
-                fontWeight={500}
-                fill="currentColor"
-                formatter={(value: number) => value.toString()}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
-  );
+type RoundedPieChartProps = {
+	title: string;
+	description: string;
+	data: RoundedPieDatum[];
+	badgeText?: string;
+};
+
+export function RoundedPieChart({
+	title,
+	description,
+	data,
+	badgeText,
+}: RoundedPieChartProps) {
+	const chartConfig = data.reduce<Record<string, { label: string; color: string }>>(
+		(config, item) => {
+			config[item.id] = {
+				label: item.label,
+				color: item.color,
+			};
+			return config;
+		},
+		{},
+	);
+
+	return (
+		<Card className="flex flex-col">
+			<CardHeader className="items-center pb-0">
+				<CardTitle>
+					{title}
+					{badgeText ? (
+						<Badge variant="outline" className="ml-2 border-none bg-muted text-foreground">
+							{badgeText}
+						</Badge>
+					) : null}
+				</CardTitle>
+				<CardDescription>{description}</CardDescription>
+			</CardHeader>
+			<CardContent className="flex-1 pb-0">
+				<ChartContainer
+					config={chartConfig}
+					className="mx-auto aspect-square max-h-[280px] [&_.recharts-text]:fill-foreground"
+				>
+					<PieChart>
+						<ChartTooltip content={<ChartTooltipContent hideLabel />} />
+						<Pie
+							data={data}
+							innerRadius={36}
+							dataKey="value"
+							nameKey="label"
+							cornerRadius={8}
+							paddingAngle={3}
+						>
+							<LabelList
+								dataKey="value"
+								stroke="none"
+								fontSize={11}
+								fontWeight={500}
+								formatter={(value) => `${value}`}
+							/>
+						</Pie>
+					</PieChart>
+				</ChartContainer>
+			</CardContent>
+		</Card>
+	);
 }
