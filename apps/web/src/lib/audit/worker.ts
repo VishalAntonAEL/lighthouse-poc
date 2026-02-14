@@ -1,17 +1,19 @@
 import { randomUUID } from "node:crypto";
 
 import { buildRunManifest } from "./aggregate";
-import { discoverUrls } from "./crawler";
-import { runLighthouseForUrls } from "./lighthouse-runner";
+import { processUrlBatch } from "./batch-processor";
+import { discoverUrls } from "./url-discovery";
 import { normalizeUrl } from "./normalize-url";
 import {
 	createJobDirectory,
 	publishLatestFromJob,
+	readCheckpoint,
 	readJobStatus,
+	writeCheckpoint,
 	writeJobManifest,
 	writeJobStatus,
 } from "./storage";
-import type { AuditJob } from "./types";
+import type { AuditJob, Checkpoint } from "./types";
 
 function getArg(flag: string): string | null {
 	const index = process.argv.indexOf(flag);
@@ -116,28 +118,40 @@ async function run() {
 		});
 
 		const jobRoot = await createJobDirectory(jobId);
-		const pages = await runLighthouseForUrls(crawlResult.urls, {
+
+		// Try to load checkpoint for resume
+		const checkpoint = await readCheckpoint(jobId);
+		const resumeFrom = checkpoint || undefined;
+
+		const pages = await processUrlBatch({
+			urls: crawlResult.urls,
 			outputRoot: jobRoot,
+			jobId,
 			concurrency,
-			browserPoolSize: browserPoolSize > 0 ? browserPoolSize : undefined,
+			chromePoolSize: browserPoolSize > 0 ? browserPoolSize : undefined,
 			timeouts: {
-				cdpConnect: cdpConnectTimeout,
-				pageNavigation: pageNavigationTimeout,
-				lighthouseAudit: lighthouseAuditTimeout,
+				audit: lighthouseAuditTimeout,
+				chromeLaunch: 45_000, // Default Chrome launch timeout
 			},
 			retry: {
 				maxRetries,
+				initialDelayMs: 1_000,
+				maxDelayMs: 8_000,
 			},
-			onProgress: (auditedCount) => {
+			onProgress: (auditedCount, total) => {
 				void updateStatus(jobId, (job) => ({
 					...job,
 					progress: {
 						...job.progress,
 						audited: auditedCount,
-						totalTarget: crawlResult.urls.length,
+						totalTarget: total,
 					},
 				}));
 			},
+			onCheckpoint: async (checkpoint) => {
+				await writeCheckpoint(jobId, checkpoint);
+			},
+			resumeFrom,
 		});
 
 		const finishedAt = new Date().toISOString();

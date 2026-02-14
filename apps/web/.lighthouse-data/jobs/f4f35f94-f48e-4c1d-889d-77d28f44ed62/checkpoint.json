@@ -1,0 +1,16 @@
+{
+  "jobId": "f4f35f94-f48e-4c1d-889d-77d28f44ed62",
+  "completedSlugs": [
+    "home-f017913a",
+    "en-3d322a11",
+    "en-a603e920",
+    "de-e19a0252",
+    "de-hauptseite-690753dd",
+    "regions-0f763341"
+  ],
+  "failedSlugs": [
+    "de-datenschutzerklarung-1f60dbb5"
+  ],
+  "auditedCount": 7,
+  "savedAt": "2026-02-13T19:12:50.531Z"
+}

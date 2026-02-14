@@ -22,13 +22,46 @@ export type OpportunitySummary = {
 	score: number | null;
 };
 
+export type MetricResult = {
+	id: string;
+	title: string;
+	score: number | null; // 0-100
+	numericValue: number; // raw value (ms or unitless)
+	numericUnit: string; // "millisecond" | "unitless"
+	displayValue: string; // "3.8 s", "0.1"
+};
+
+export type SlimLhr = {
+	requestedUrl: string;
+	finalDisplayedUrl: string;
+	fetchTime: string;
+	formFactor: "desktop" | "mobile";
+	categories: CategoryScores;
+	metrics: {
+		fcp: MetricResult | null;
+		lcp: MetricResult | null;
+		tbt: MetricResult | null;
+		cls: MetricResult | null;
+		si: MetricResult | null;
+		tti: MetricResult | null;
+	};
+	opportunities: OpportunitySummary[];
+};
+
+export type Checkpoint = {
+	jobId: string;
+	completedSlugs: string[];
+	failedSlugs: string[];
+	auditedCount: number;
+	savedAt: string;
+};
+
 export type DeviceResult = {
 	device: "desktop" | "mobile";
 	status: "success" | "error";
 	scores: CategoryScores | null;
 	opportunities: OpportunitySummary[];
-	reportPath: string | null;
-	lhrPath: string | null;
+	slimLhrPath: string | null; // Path to slim JSON file
 	errorMessage?: string;
 };
 

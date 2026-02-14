@@ -11,7 +11,6 @@ import {
 	findActiveJob,
 	getWorkerEntrypoint,
 	readJobStatus,
-	readLatestArtifactHtml,
 	readLatestManifest,
 	writeJobStatus,
 } from "@/lib/audit/storage";
@@ -24,11 +23,6 @@ const startInputSchema = z.object({
 
 const statusInputSchema = z.object({
 	jobId: z.string().min(1),
-});
-
-const artifactInputSchema = z.object({
-	slug: z.string().min(1),
-	device: z.enum(["desktop", "mobile"]),
 });
 
 export async function startAuditRunAction(input: {
@@ -113,12 +107,4 @@ export async function getAuditStatusAction(input: {
 
 export async function getLatestManifestAction(): Promise<AuditRunManifest | null> {
 	return await readLatestManifest();
-}
-
-export async function getArtifactHtmlAction(input: {
-	slug: string;
-	device: "desktop" | "mobile";
-}): Promise<string | null> {
-	const parsed = artifactInputSchema.parse(input);
-	return await readLatestArtifactHtml(parsed.slug, parsed.device);
 }

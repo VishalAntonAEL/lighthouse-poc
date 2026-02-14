@@ -11,9 +11,7 @@ type PageDrilldownProps = {
 	page: AuditPageResult | null;
 };
 
-function DevicePanel({ device, slug }: { device: DeviceResult; slug: string }) {
-	const detailLink = `/report/latest/${slug}/${device.device}`;
-
+function DevicePanel({ device }: { device: DeviceResult }) {
 	return (
 		<div className="grid gap-3">
 			<div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -33,17 +31,6 @@ function DevicePanel({ device, slug }: { device: DeviceResult; slug: string }) {
 						</Badge>
 					</div>
 				))}
-			</div>
-
-			<div className="flex flex-wrap gap-2">
-				<a
-					href={detailLink}
-					target="_blank"
-					rel="noreferrer"
-					className="border px-2 py-1 text-xs hover:bg-muted"
-				>
-					Open Lighthouse HTML
-				</a>
 			</div>
 
 			{device.errorMessage ? (
@@ -111,10 +98,10 @@ export default function PageDrilldown({ page }: PageDrilldownProps) {
 						<TabsTrigger value="mobile">Mobile</TabsTrigger>
 					</TabsList>
 					<TabsContent value="desktop">
-						<DevicePanel device={page.devices.desktop} slug={page.slug} />
+						<DevicePanel device={page.devices.desktop} />
 					</TabsContent>
 					<TabsContent value="mobile">
-						<DevicePanel device={page.devices.mobile} slug={page.slug} />
+						<DevicePanel device={page.devices.mobile} />
 					</TabsContent>
 				</Tabs>
 			</CardContent>

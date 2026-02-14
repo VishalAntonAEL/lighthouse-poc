@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
-import type { AuditJob, AuditRunManifest } from "./types";
+import type { AuditJob, AuditRunManifest, Checkpoint, SlimLhr } from "./types";
 
 export const AUDIT_DATA_ROOT = path.join(process.cwd(), ".lighthouse-data");
 export const AUDIT_JOBS_ROOT = path.join(AUDIT_DATA_ROOT, "jobs");
@@ -40,6 +40,10 @@ export function getJobStatusPath(jobId: string) {
 
 export function getJobManifestPath(jobId: string) {
 	return path.join(asJobPath(jobId), "manifest.json");
+}
+
+export function getCheckpointPath(jobId: string) {
+	return path.join(asJobPath(jobId), "checkpoint.json");
 }
 
 export async function writeJobStatus(status: AuditJob) {
@@ -122,10 +126,32 @@ export function isValidDevice(input: string): input is "desktop" | "mobile" {
 	return input === "desktop" || input === "mobile";
 }
 
-export async function readLatestArtifactHtml(
+export async function readCheckpoint(jobId: string): Promise<Checkpoint | null> {
+	try {
+		const data = await fs.readFile(getCheckpointPath(jobId), "utf8");
+		return JSON.parse(data) as Checkpoint;
+	} catch {
+		return null;
+	}
+}
+
+export async function writeCheckpoint(
+	jobId: string,
+	checkpoint: Checkpoint,
+): Promise<void> {
+	await ensureAuditDataDirectories();
+	await createJobDirectory(jobId);
+	await fs.writeFile(
+		getCheckpointPath(jobId),
+		JSON.stringify(checkpoint, null, 2),
+		"utf8",
+	);
+}
+
+export async function readLatestSlimLhr(
 	slug: string,
 	device: "desktop" | "mobile",
-) {
+): Promise<SlimLhr | null> {
 	if (!isValidSlug(slug)) {
 		return null;
 	}
@@ -134,10 +160,11 @@ export async function readLatestArtifactHtml(
 		AUDIT_LATEST_ROOT,
 		"pages",
 		slug,
-		`${device}.report.html`,
+		`${device}.slim.json`,
 	);
 	try {
-		return await fs.readFile(artifactPath, "utf8");
+		const data = await fs.readFile(artifactPath, "utf8");
+		return JSON.parse(data) as SlimLhr;
 	} catch {
 		return null;
 	}

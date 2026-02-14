@@ -9,9 +9,7 @@ import UrlTable from "@/components/report/url-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RoundedPieChart } from "@/components/ui/rounded-pie-chart";
 import { StrokeMultipleRadarChart } from "@/components/ui/stroke-multiple-radar-chart";
-import { ValueLineBarChart } from "@/components/ui/value-line-bar-chart";
 import type { AuditPageResult, AuditRunManifest } from "@/lib/audit/types";
 
 type LoadState =
@@ -92,41 +90,6 @@ export default function LatestReportView() {
 	const manifest = loadState.manifest;
 	const exec = manifest.executiveSummary;
 
-	const worstPerfData = manifest.pages.slice(0, 12).map((page) => ({
-		label: page.slug,
-		value: page.combinedScore ?? 0,
-	}));
-
-	const distribution = exec.scoreDistribution;
-	const pieData = [
-		{
-			id: "good",
-			label: "Good",
-			value: distribution.desktop.good + distribution.mobile.good,
-			color: "var(--chart-2)",
-		},
-		{
-			id: "needs_work",
-			label: "Needs Work",
-			value:
-				distribution.desktop.needsImprovement +
-				distribution.mobile.needsImprovement,
-			color: "var(--chart-3)",
-		},
-		{
-			id: "poor",
-			label: "Poor",
-			value: distribution.desktop.poor + distribution.mobile.poor,
-			color: "var(--chart-5)",
-		},
-		{
-			id: "unavailable",
-			label: "Unavailable",
-			value: distribution.desktop.unavailable + distribution.mobile.unavailable,
-			color: "var(--muted-foreground)",
-		},
-	];
-
 	const radarData = exec.categoryComparison.map((entry) => ({
 		category: entry.category,
 		desktop: entry.desktop ?? 0,
@@ -158,20 +121,7 @@ export default function LatestReportView() {
 			<RunMeta manifest={manifest} />
 			<ReportKpis manifest={manifest} />
 
-			<div className="grid gap-3 xl:grid-cols-3">
-				<ValueLineBarChart
-					title="Performance"
-					description="Lowest combined score pages (higher bars indicate better scores)."
-					data={worstPerfData}
-					target={90}
-					badgeText={`Health ${exec.overallHealthGrade}`}
-				/>
-				<RoundedPieChart
-					title="Score Distribution"
-					description="Desktop + Mobile performance bucket share"
-					data={pieData}
-					badgeText={`${exec.pagesAtRiskPercent}% at risk`}
-				/>
+			<div className="grid gap-3">
 				<StrokeMultipleRadarChart
 					title="Desktop vs Mobile"
 					description="Category score spread"

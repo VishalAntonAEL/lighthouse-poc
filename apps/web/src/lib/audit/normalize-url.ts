@@ -80,6 +80,11 @@ export function getRegistrableDomain(rawUrl: string) {
 	}
 }
 
+/**
+ * Allow same registrable domain and "regional" sibling domains.
+ * E.g. when base is medisca.com, allow medisca.com.au, medisca.co.uk, etc.,
+ * so the crawler follows region switcher links instead of stopping early.
+ */
 export function isAllowedDomain(candidateUrl: string, baseUrl: string) {
 	const baseDomain = getRegistrableDomain(baseUrl);
 	const candidateDomain = getRegistrableDomain(candidateUrl);
@@ -88,7 +93,18 @@ export function isAllowedDomain(candidateUrl: string, baseUrl: string) {
 		return false;
 	}
 
-	return baseDomain === candidateDomain;
+	if (baseDomain === candidateDomain) {
+		return true;
+	}
+
+	// Allow regional siblings: medisca.com + medisca.com.au, or medisca.com.au + medisca.com
+	const baseDot = `${baseDomain}.`;
+	const candidateDot = `${candidateDomain}.`;
+	if (candidateDomain.startsWith(baseDot) || baseDomain.startsWith(candidateDot)) {
+		return true;
+	}
+
+	return false;
 }
 
 export function createUrlSlug(url: string) {
