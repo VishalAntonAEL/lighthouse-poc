@@ -19,6 +19,7 @@
 		"check-types": "turbo check-types",
 		"dev:native": "turbo -F native dev",
 		"dev:web": "turbo -F web dev",
+		"build:web": "turbo -F web build",
 		"check": "biome check --write ."
 	},
 	"dependencies": {
