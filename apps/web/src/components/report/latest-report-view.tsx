@@ -6,6 +6,8 @@ import PageDrilldown from "@/components/report/page-drilldown";
 import ReportKpis from "@/components/report/report-kpis";
 import RunMeta from "@/components/report/run-meta";
 import UrlTable from "@/components/report/url-table";
+import CruxSection from "@/components/report/crux-section";
+import CruxTrends from "@/components/report/crux-trends";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -160,12 +162,25 @@ export default function LatestReportView() {
 				</CardContent>
 			</Card>
 
+			{manifest.originCrux && (
+				<div className="grid gap-3">
+					<CruxSection
+						cruxData={manifest.originCrux.combined || manifest.originCrux.desktop}
+						title="Site-Wide Real-User Experience (CrUX)"
+						fallbackMessage="No origin-level CrUX data available."
+					/>
+					{manifest.cruxHistory && (
+						<CruxTrends cruxHistory={manifest.cruxHistory} />
+					)}
+				</div>
+			)}
+
 			<UrlTable
 				pages={manifest.pages}
 				selectedSlug={selectedSlug}
 				onSelect={(page: AuditPageResult) => setSelectedSlug(page.slug)}
 			/>
-			<PageDrilldown page={selectedPage} />
+			<PageDrilldown page={selectedPage} originCrux={manifest.originCrux} />
 		</div>
 	);
 }

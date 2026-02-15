@@ -63,6 +63,15 @@ export type DeviceResult = {
 	opportunities: OpportunitySummary[];
 	slimLhrPath: string | null; // Path to slim JSON file
 	errorMessage?: string;
+	cruxData?: CruxData | null; // Per-URL or origin fallback
+	metrics?: {
+		fcp: MetricResult | null;
+		lcp: MetricResult | null;
+		tbt: MetricResult | null;
+		cls: MetricResult | null;
+		si: MetricResult | null;
+		tti: MetricResult | null;
+	};
 };
 
 export type AuditPageResult = {
@@ -156,6 +165,12 @@ export type AuditRunManifest = {
 	executiveSummary: ExecutiveSummary;
 	settings: AuditSettings;
 	pages: AuditPageResult[];
+	originCrux?: {
+		desktop?: CruxData | null;
+		mobile?: CruxData | null;
+		combined?: CruxData | null;
+	};
+	cruxHistory?: CruxHistoryRecord | null;
 };
 
 export type AuditJob = {
@@ -187,4 +202,29 @@ export type RetryConfig = {
 	maxRetries?: number;
 	initialDelayMs?: number;
 	maxDelayMs?: number;
+};
+
+export type CruxMetric = {
+	histogram: Array<{ start: number; end?: number; density: number }>;
+	percentiles: { p75: number };
+};
+
+export type CruxData = {
+	key: { url?: string; origin?: string; formFactor?: string };
+	metrics: {
+		largest_contentful_paint?: CruxMetric;
+		interaction_to_next_paint?: CruxMetric;
+		cumulative_layout_shift?: CruxMetric;
+		first_contentful_paint?: CruxMetric;
+		time_to_first_byte?: CruxMetric;
+	};
+	collectionPeriod?: { firstDate: string; lastDate: string };
+};
+
+export type CruxHistoryRecord = {
+	key: { origin: string; formFactor?: string };
+	historyRecord: Array<{
+		collectionPeriod: { firstDate: string; lastDate: string };
+		metrics: CruxData["metrics"];
+	}>;
 };

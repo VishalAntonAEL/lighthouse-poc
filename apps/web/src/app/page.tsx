@@ -83,7 +83,7 @@ export default function Home() {
 		try {
 			const result = await startAuditRunAction({
 				baseUrl,
-				maxPages: 2000,
+				maxPages: 5000,
 			});
 			setJobId(result.jobId);
 			setMessage(

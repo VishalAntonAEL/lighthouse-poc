@@ -18,7 +18,7 @@ import type { AuditJob, AuditRunManifest } from "@/lib/audit/types";
 
 const startInputSchema = z.object({
 	baseUrl: z.string().min(1),
-	maxPages: z.number().int().positive().max(2000).optional(),
+	maxPages: z.number().int().positive().max(5000).optional(),
 });
 
 const statusInputSchema = z.object({
@@ -46,7 +46,7 @@ export async function startAuditRunAction(input: {
 
 	const jobId = randomUUID();
 	const now = new Date().toISOString();
-	const maxPages = parsed.maxPages ?? 2000;
+	const maxPages = parsed.maxPages ?? 5000;
 
 	const initialStatus: AuditJob = {
 		jobId,

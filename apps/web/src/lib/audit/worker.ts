@@ -1,4 +1,7 @@
+import "dotenv/config";
 import { randomUUID } from "node:crypto";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 
 import { buildRunManifest } from "./aggregate";
 import { processUrlBatch } from "./batch-processor";
@@ -13,7 +16,7 @@ import {
 	writeJobManifest,
 	writeJobStatus,
 } from "./storage";
-import type { AuditJob, Checkpoint } from "./types";
+import type { AuditJob, Checkpoint, CruxData, CruxHistoryRecord } from "./types";
 
 function getArg(flag: string): string | null {
 	const index = process.argv.indexOf(flag);
@@ -54,19 +57,23 @@ async function updateStatus(
 async function run() {
 	const jobId = getArg("--job");
 	const baseUrlInput = getArg("--base");
-	const maxPages = getIntArg("--max-pages", 2000);
+	const maxPages = getIntArg("--max-pages", 5000);
 	const concurrency = getIntArg("--concurrency", 5);
-	const browserPoolSize = getIntArg("--browser-pool-size", 0); // 0 = auto
+	const crawlConcurrency = getIntArg("--crawl-concurrency", 10);
 
 	// Timeout configurations (all in milliseconds)
 	const crawlTimeout = getIntArg("--crawl-timeout", 30_000);
 	const sitemapTimeout = getIntArg("--sitemap-timeout", 15_000);
-	const cdpConnectTimeout = getIntArg("--cdp-timeout", 60_000);
-	const pageNavigationTimeout = getIntArg("--page-timeout", 60_000);
 	const lighthouseAuditTimeout = getIntArg("--audit-timeout", 90_000);
 
 	// Retry configuration
 	const maxRetries = getIntArg("--max-retries", 3);
+
+	// API key from environment (required for PageSpeed + CrUX APIs)
+	const apiKey = process.env.GOOGLE_API_KEY ?? "";
+	if (!apiKey) {
+		throw new Error("Missing GOOGLE_API_KEY environment variable.");
+	}
 
 	if (!jobId || !baseUrlInput) {
 		throw new Error("Missing required args: --job and --base");
@@ -82,10 +89,9 @@ async function run() {
 
 	console.log(`[Worker] Starting audit job ${jobId}`);
 	console.log(`[Worker] Base URL: ${normalizedBaseUrl}`);
-	console.log(`[Worker] Max pages: ${maxPages}, Concurrency: ${concurrency}`);
-	console.log(`[Worker] Browser pool size: ${browserPoolSize || "auto"}`);
+	console.log(`[Worker] Max pages: ${maxPages}, Concurrency: ${concurrency}, Crawl concurrency: ${crawlConcurrency}`);
 	console.log(
-		`[Worker] Timeouts: crawl=${crawlTimeout}ms, sitemap=${sitemapTimeout}ms, cdp=${cdpConnectTimeout}ms, page=${pageNavigationTimeout}ms, audit=${lighthouseAuditTimeout}ms`,
+		`[Worker] Timeouts: crawl=${crawlTimeout}ms, sitemap=${sitemapTimeout}ms, audit=${lighthouseAuditTimeout}ms`,
 	);
 	console.log(`[Worker] Max retries: ${maxRetries}`);
 
@@ -102,6 +108,7 @@ async function run() {
 		const crawlResult = await discoverUrls({
 			baseUrl: normalizedBaseUrl,
 			maxPages,
+			concurrency: crawlConcurrency,
 			timeoutMs: crawlTimeout,
 			sitemapTimeoutMs: sitemapTimeout,
 			onProgress: (progress) => {
@@ -128,16 +135,17 @@ async function run() {
 			outputRoot: jobRoot,
 			jobId,
 			concurrency,
-			chromePoolSize: browserPoolSize > 0 ? browserPoolSize : undefined,
+			apiKey,
+			baseUrl: normalizedBaseUrl,
 			timeouts: {
 				audit: lighthouseAuditTimeout,
-				chromeLaunch: 45_000, // Default Chrome launch timeout
 			},
 			retry: {
 				maxRetries,
 				initialDelayMs: 1_000,
 				maxDelayMs: 8_000,
 			},
+			delayBetweenRequestsMs: 500, // Throttle API requests
 			onProgress: (auditedCount, total) => {
 				void updateStatus(jobId, (job) => ({
 					...job,
@@ -154,6 +162,34 @@ async function run() {
 			resumeFrom,
 		});
 
+		// Load origin CrUX data and history from files saved by batch processor
+		let originCrux: {
+			desktop?: CruxData | null;
+			mobile?: CruxData | null;
+			combined?: CruxData | null;
+		} | undefined;
+		let cruxHistory: CruxHistoryRecord | null | undefined;
+
+		try {
+			const originCruxPath = path.join(jobRoot, "origin-crux.json");
+			const originCruxData = await fs.readFile(originCruxPath, "utf8").catch(() => null);
+			if (originCruxData) {
+				originCrux = JSON.parse(originCruxData);
+			}
+		} catch (error) {
+			console.warn(`[Worker] Failed to load origin CrUX data:`, error);
+		}
+
+		try {
+			const cruxHistoryPath = path.join(jobRoot, "crux-history.json");
+			const cruxHistoryData = await fs.readFile(cruxHistoryPath, "utf8").catch(() => null);
+			if (cruxHistoryData) {
+				cruxHistory = JSON.parse(cruxHistoryData);
+			}
+		} catch (error) {
+			console.warn(`[Worker] Failed to load CrUX history:`, error);
+		}
+
 		const finishedAt = new Date().toISOString();
 		const manifest = buildRunManifest({
 			runId,
@@ -168,6 +204,8 @@ async function run() {
 				devices: ["desktop", "mobile"],
 			},
 			pages,
+			originCrux,
+			cruxHistory,
 		});
 
 		await writeJobManifest(jobId, manifest);

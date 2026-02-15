@@ -11,6 +11,8 @@ import type {
 	ScoreDistribution,
 	TopIssue,
 	TopRiskTheme,
+	CruxData,
+	CruxHistoryRecord,
 } from "./types";
 
 type BuildManifestInput = {
@@ -22,6 +24,12 @@ type BuildManifestInput = {
 	discoveredPages: number;
 	settings: AuditSettings;
 	pages: AuditPageResult[];
+	originCrux?: {
+		desktop?: CruxData | null;
+		mobile?: CruxData | null;
+		combined?: CruxData | null;
+	};
+	cruxHistory?: CruxHistoryRecord | null;
 };
 
 function average(values: number[]) {
@@ -313,5 +321,7 @@ export function buildRunManifest(input: BuildManifestInput): AuditRunManifest {
 		summary,
 		executiveSummary,
 		pages: sortedPages,
+		originCrux: input.originCrux,
+		cruxHistory: input.cruxHistory,
 	};
 }

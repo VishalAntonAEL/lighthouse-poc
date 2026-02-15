@@ -82,7 +82,7 @@ export function RoundedPieChart({
 								stroke="none"
 								fontSize={11}
 								fontWeight={500}
-								formatter={(value) => `${value}`}
+								formatter={(value: number | string) => `${value}`}
 							/>
 						</Pie>
 					</PieChart>

@@ -1,11 +1,13 @@
 import * as chromeLauncher from "chrome-launcher";
-import puppeteer from "puppeteer-core";
+import puppeteer, { type Page } from "puppeteer-core";
 import { isAllowedDomain, normalizeUrl } from "./normalize-url";
 import type { CrawlResult } from "./types";
 
 type CrawlOptions = {
 	baseUrl: string;
 	maxPages: number;
+	/** Number of browser tabs to crawl in parallel. */
+	concurrency?: number;
 	timeoutMs?: number;
 	sitemapTimeoutMs?: number;
 	onProgress?: (progress: {
@@ -246,27 +248,46 @@ async function crawlRecursively(
 /** Per-page navigation timeout when using browser crawl (networkidle can be slow). */
 const BROWSER_PAGE_TIMEOUT_MS = 25_000;
 
+const CRAWL_CONCURRENCY_DEFAULT = 10;
+/** Recommended max for M2 MacBook Air (8GB): 8–10; 16GB: 12–16. Each tab = one URL at a time. */
+const CRAWL_CONCURRENCY_RECOMMENDED_MAX = 12;
+
 /**
  * Crawl using a real browser (Puppeteer). Discovers links from the live DOM
  * after JavaScript runs, so region selectors and client-rendered links are found.
  * Uses the same BFS + isAllowedDomain logic so regional siblings (e.g. medisca.com.au) are followed.
+ * Runs multiple tabs in parallel: one shared queue, each tab pulls the next URL via getNextUrl()
+ * (so every tab works on a different URL and none are duplicated), then pushes new links back.
  */
 async function crawlWithBrowser(
 	baseUrl: string,
 	seedUrls: string[],
 	maxPages: number,
 	timeoutMs: number,
+	concurrency: number,
 	onProgress?: CrawlOptions["onProgress"],
 ): Promise<{ discovered: Set<string>; crawled: number }> {
 	const discovered = new Set<string>(seedUrls);
+	discovered.add(baseUrl);
 	const visited = new Set<string>();
 	const queue: string[] = [baseUrl, ...seedUrls];
+	let inFlight = 0;
+
+	const getNextUrl = (): string | null => {
+		if (discovered.size >= maxPages || queue.length === 0) return null;
+		const url = queue.shift();
+		if (!url || visited.has(url)) return getNextUrl();
+		visited.add(url);
+		return url;
+	};
 
 	let chrome: Awaited<ReturnType<typeof chromeLauncher.launch>> | null = null;
 	let browser: Awaited<ReturnType<typeof puppeteer.connect>> | null = null;
 
+	const chromePath = process.env.CHROME_PATH || process.env.PUPPETEER_EXECUTABLE_PATH;
 	try {
 		chrome = await chromeLauncher.launch({
+			...(chromePath && { chromePath }),
 			chromeFlags: [
 				"--headless=new",
 				"--no-sandbox",
@@ -279,66 +300,66 @@ async function crawlWithBrowser(
 			browserURL: `http://127.0.0.1:${chrome.port}`,
 		});
 
-		const page = await browser.newPage();
-		await page.setDefaultNavigationTimeout(BROWSER_PAGE_TIMEOUT_MS);
+		const worker = async (page: Page) => {
+			while (true) {
+				const currentUrl = getNextUrl();
+				if (!currentUrl) {
+					if (inFlight === 0 && queue.length === 0) break;
+					await new Promise((r) => setTimeout(r, 100));
+					continue;
+				}
+				inFlight++;
+				try {
+					await page.goto(currentUrl, {
+						waitUntil: "networkidle2",
+						timeout: BROWSER_PAGE_TIMEOUT_MS,
+					});
+				} catch {
+					inFlight--;
+					onProgress?.({
+						discovered: discovered.size,
+						crawled: visited.size,
+						totalTarget: Math.min(discovered.size, maxPages),
+						sitemapDiscovered: seedUrls.length,
+					});
+					continue;
+				}
 
-		while (queue.length > 0 && discovered.size < maxPages) {
-			const currentUrl = queue.shift();
-			if (!currentUrl || visited.has(currentUrl)) {
-				continue;
-			}
+				const hrefs = await page.$$eval("a", (anchors) =>
+					anchors.map((a) => (a as HTMLAnchorElement).href),
+				);
 
-			visited.add(currentUrl);
-			try {
-				await page.goto(currentUrl, {
-					waitUntil: "networkidle2",
-					timeout: BROWSER_PAGE_TIMEOUT_MS,
-				});
-			} catch {
-				// Timeout or load error: skip this URL
+				for (const href of hrefs) {
+					if (discovered.size >= maxPages) break;
+					const normalized = normalizeUrl(href, currentUrl);
+					if (!normalized) continue;
+					if (!isAllowedDomain(normalized, baseUrl)) continue;
+					if (hasIgnoredExtension(normalized)) continue;
+					if (discovered.has(normalized)) continue;
+					discovered.add(normalized);
+					queue.push(normalized);
+				}
+				inFlight--;
 				onProgress?.({
 					discovered: discovered.size,
 					crawled: visited.size,
 					totalTarget: Math.min(discovered.size, maxPages),
 					sitemapDiscovered: seedUrls.length,
 				});
-				continue;
 			}
+		};
 
-			const hrefs = await page.$$eval("a", (anchors) =>
-				anchors.map((a) => (a as HTMLAnchorElement).href),
-			);
-
-			for (const href of hrefs) {
-				if (discovered.size >= maxPages) {
-					break;
-				}
-				const normalized = normalizeUrl(href, currentUrl);
-				if (!normalized) {
-					continue;
-				}
-				if (!isAllowedDomain(normalized, baseUrl)) {
-					continue;
-				}
-				if (hasIgnoredExtension(normalized)) {
-					continue;
-				}
-				if (discovered.has(normalized)) {
-					continue;
-				}
-				discovered.add(normalized);
-				queue.push(normalized);
-			}
-
-			onProgress?.({
-				discovered: discovered.size,
-				crawled: visited.size,
-				totalTarget: Math.min(discovered.size, maxPages),
-				sitemapDiscovered: seedUrls.length,
-			});
+		const br = browser;
+		const pages = await Promise.all(
+			Array.from({ length: concurrency }, () => br.newPage()),
+		);
+		for (const page of pages) {
+			await page.setDefaultNavigationTimeout(BROWSER_PAGE_TIMEOUT_MS);
 		}
-
-		await page.close();
+		await Promise.all(pages.map((page) => worker(page)));
+		for (const page of pages) {
+			await page.close();
+		}
 	} catch (err) {
 		console.warn("[Crawler] Browser crawl failed, continuing with discovered URLs:", err);
 	} finally {
@@ -372,18 +393,23 @@ export async function discoverUrls(
 		throw new Error("Invalid base URL.");
 	}
 
+	const crawlConcurrency = options.concurrency ?? CRAWL_CONCURRENCY_DEFAULT;
 	console.log(`[Crawler] Starting discovery for ${normalizedBaseUrl}`);
 	console.log(
-		`[Crawler] Crawl timeout: ${crawlTimeoutMs}ms, Sitemap timeout: ${sitemapTimeoutMs}ms`,
+		`[Crawler] Crawl timeout: ${crawlTimeoutMs}ms, Sitemap timeout: ${sitemapTimeoutMs}ms, Concurrency: ${crawlConcurrency}`,
 	);
 
-	const sitemapUrls = await fetchSitemapUrls(
-		normalizedBaseUrl,
-		options.maxPages,
-		sitemapTimeoutMs,
-	);
-
-	console.log(`[Crawler] Found ${sitemapUrls.length} URLs from sitemap`);
+	let sitemapUrls: string[] = [];
+	try {
+		sitemapUrls = await fetchSitemapUrls(
+			normalizedBaseUrl,
+			options.maxPages,
+			sitemapTimeoutMs,
+		);
+		console.log(`[Crawler] Found ${sitemapUrls.length} URLs from sitemap`);
+	} catch (err) {
+		console.warn("[Crawler] Sitemap fetch failed, continuing with browser crawl only:", err);
+	}
 
 	options.onProgress?.({
 		discovered: sitemapUrls.length,
@@ -397,6 +423,7 @@ export async function discoverUrls(
 		sitemapUrls,
 		options.maxPages,
 		crawlTimeoutMs,
+		crawlConcurrency,
 		options.onProgress,
 	);
 

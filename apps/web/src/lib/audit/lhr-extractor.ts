@@ -212,10 +212,13 @@ export function extractSlimLhr(
 ): SlimLhr {
 	const requestedUrl =
 		typeof lhr.requestedUrl === "string" ? lhr.requestedUrl : "";
+	// PageSpeed API uses `finalUrl`, Lighthouse CLI uses `finalDisplayedUrl`
 	const finalDisplayedUrl =
 		typeof lhr.finalDisplayedUrl === "string"
 			? lhr.finalDisplayedUrl
-			: requestedUrl;
+			: typeof lhr.finalUrl === "string"
+				? lhr.finalUrl
+				: requestedUrl;
 	const fetchTime =
 		typeof lhr.fetchTime === "string" ? lhr.fetchTime : new Date().toISOString();
 

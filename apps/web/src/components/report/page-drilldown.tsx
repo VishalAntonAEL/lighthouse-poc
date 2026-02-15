@@ -5,10 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { AuditPageResult, DeviceResult } from "@/lib/audit/types";
 
+import CruxSection from "./crux-section";
+import LabVsField from "./lab-vs-field";
 import { formatScore, scoreTone } from "./score-utils";
 
 type PageDrilldownProps = {
 	page: AuditPageResult | null;
+	originCrux?: {
+		desktop?: import("@/lib/audit/types").CruxData | null;
+		mobile?: import("@/lib/audit/types").CruxData | null;
+		combined?: import("@/lib/audit/types").CruxData | null;
+	};
 };
 
 function DevicePanel({ device }: { device: DeviceResult }) {
@@ -70,7 +77,10 @@ function DevicePanel({ device }: { device: DeviceResult }) {
 	);
 }
 
-export default function PageDrilldown({ page }: PageDrilldownProps) {
+export default function PageDrilldown({
+	page,
+	originCrux,
+}: PageDrilldownProps) {
 	if (!page) {
 		return (
 			<Card>
@@ -97,11 +107,45 @@ export default function PageDrilldown({ page }: PageDrilldownProps) {
 						<TabsTrigger value="desktop">Desktop</TabsTrigger>
 						<TabsTrigger value="mobile">Mobile</TabsTrigger>
 					</TabsList>
-					<TabsContent value="desktop">
+					<TabsContent value="desktop" className="grid gap-4">
 						<DevicePanel device={page.devices.desktop} />
+						<CruxSection
+							cruxData={
+								page.devices.desktop.cruxData ||
+								originCrux?.desktop ||
+								originCrux?.combined
+							}
+							title="Real-User Experience (CrUX) - Desktop"
+							fallbackMessage="No real-user data available for this page."
+						/>
+						<LabVsField
+							device={page.devices.desktop}
+							cruxData={
+								page.devices.desktop.cruxData ||
+								originCrux?.desktop ||
+								originCrux?.combined
+							}
+						/>
 					</TabsContent>
-					<TabsContent value="mobile">
+					<TabsContent value="mobile" className="grid gap-4">
 						<DevicePanel device={page.devices.mobile} />
+						<CruxSection
+							cruxData={
+								page.devices.mobile.cruxData ||
+								originCrux?.mobile ||
+								originCrux?.combined
+							}
+							title="Real-User Experience (CrUX) - Mobile"
+							fallbackMessage="No real-user data available for this page."
+						/>
+						<LabVsField
+							device={page.devices.mobile}
+							cruxData={
+								page.devices.mobile.cruxData ||
+								originCrux?.mobile ||
+								originCrux?.combined
+							}
+						/>
 					</TabsContent>
 				</Tabs>
 			</CardContent>
