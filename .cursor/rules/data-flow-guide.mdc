@@ -1,0 +1,807 @@
+# Sentinow Data Flow Guide
+
+End-to-end guide for building features in Sentinow using Next.js 16 Cache Components (PPR), TanStack Query, and Elysia API endpoints.
+
+---
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              Next.js 16 App (PPR Enabled)                   │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  Server Component (page.tsx)                         │  │
+│  │  • Static shell (pre-rendered at build)              │  │
+│  │  • Suspense boundaries for dynamic sections          │  │
+│  │  • Optional: 'use cache' for slow-changing data      │  │
+│  └────────────────┬─────────────────────────────────────┘  │
+│                   │                                          │
+│  ┌────────────────▼─────────────────────────────────────┐  │
+│  │  Client Component (client.tsx)                        │  │
+│  │  • useQuery for data fetching                        │  │
+│  │  • useMutation for updates                           │  │
+│  │  • Full TanStack Query features                      │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              │ HTTP Request (Eden Treaty)
+                              │
+┌─────────────────────────────▼─────────────────────────────┐
+│                  Elysia Auth Server (Backend)              │
+│  ┌──────────────────────────────────────────────────────┐ │
+│  │  Route Handler (index.ts)                            │ │
+│  │  • Validate auth via middleware                      │ │
+│  │  • Validate request body/params (Zod)               │ │
+│  │  • Call service/better-auth API                      │ │
+│  │  • Return typed response                             │ │
+│  └──────────────────────────────────────────────────────┘ │
+│  ┌──────────────────────────────────────────────────────┐ │
+│  │  Model (model.ts)                                     │ │
+│  │  • Zod schemas for validation                        │ │
+│  │  • TypeScript type exports                           │ │
+│  └──────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Setup
+
+### 1. Enable Cache Components
+
+```typescript
+// next.config.ts
+import type { NextConfig } from 'next'
+
+const nextConfig: NextConfig = {
+  cacheComponents: true, // Enables Partial Prerendering (PPR)
+}
+
+export default nextConfig
+```
+
+### 2. Configure TanStack Query Provider
+
+```typescript
+// app/providers.tsx
+'use client'
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { useState } from 'react'
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: 60 * 1000, // 1 minute
+            refetchOnWindowFocus: true,
+            retry: 1,
+          },
+        },
+      })
+  )
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  )
+}
+```
+
+```typescript
+// app/layout.tsx
+import { Providers } from './providers'
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  )
+}
+```
+
+---
+
+## Building Features
+
+### File Structure
+
+```
+apps/app/src/app/[feature]/
+├── page.tsx           # Server Component (static shell + Suspense)
+├── client.tsx         # Client Component (data fetching with useQuery)
+└── loading.tsx        # Optional loading skeleton
+
+apps/app/src/services/
+└── [feature].service.ts  # TanStack Query hooks + query keys
+
+apps/auth-server/src/modules/[feature]/
+├── index.ts           # Elysia route handlers
+└── model.ts           # Zod schemas + types
+```
+
+---
+
+## Frontend: Page Component
+
+### Server Component (`page.tsx`)
+
+```typescript
+import { Suspense } from 'react'
+import { redirect } from 'next/navigation'
+import { authServerClient } from '@/lib/auth/auth-server-client'
+import { Navigation } from '@/components/navigation'
+import { UsersDataTable, TableSkeleton } from './client'
+
+// PPR automatically enabled with cacheComponents: true
+export default async function DashboardPage() {
+  // 1. Authenticate user (if needed)
+  const { data, error } = await authServerClient.getSession()
+  if (!data || error) {
+    redirect('/login')
+  }
+
+  return (
+    <div className="min-h-screen">
+      {/* STATIC SHELL - Pre-rendered at build time */}
+      <nav className="bg-white shadow">
+        <Navigation />
+      </nav>
+
+      <main className="container mx-auto py-8">
+        {/* STATIC HEADER */}
+        <header className="mb-8">
+          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <p className="text-gray-600">Welcome back!</p>
+        </header>
+
+        {/* DYNAMIC SECTIONS - Each wrapped in Suspense */}
+        <div className="space-y-8">
+          <Suspense fallback={<TableSkeleton />}>
+            <UsersDataTable />
+          </Suspense>
+        </div>
+      </main>
+    </div>
+  )
+}
+```
+
+### Client Component (`client.tsx`)
+
+```typescript
+'use client'
+
+import { useQuery } from '@tanstack/react-query'
+import { useState, useTransition } from 'react'
+import { authApiClient } from '@/lib/api'
+
+export function UsersDataTable() {
+  const [filters, setFilters] = useState({ 
+    page: 1, 
+    status: 'active' 
+  })
+  const [isPending, startTransition] = useTransition()
+
+  // Data fetches on client when component mounts
+  const { data, error } = useQuery({
+    queryKey: ['users', filters],
+    queryFn: async () => {
+      const { data, error } = await authApiClient.users.list.get({
+        query: filters,
+      })
+      if (error) throw error
+      return data
+    },
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    placeholderData: (prev) => prev, // Keep old data while fetching
+  })
+
+  const updateFilters = (updates: Partial<typeof filters>) => {
+    // Prevents Suspense fallback from showing
+    startTransition(() => {
+      setFilters((prev) => ({ ...prev, ...updates }))
+    })
+  }
+
+  if (error) throw error // Error boundary handles this
+
+  return (
+    <div className="bg-white rounded-lg shadow">
+      {isPending && (
+        <div className="absolute top-4 right-4">
+          <Spinner />
+        </div>
+      )}
+
+      <DataTableFilters 
+        filters={filters} 
+        onFilterChange={updateFilters} 
+      />
+      <DataTable data={data.users} columns={columns} />
+      <DataTablePagination
+        page={filters.page}
+        total={data.total}
+        onPageChange={(page) => updateFilters({ page })}
+      />
+    </div>
+  )
+}
+
+export function TableSkeleton() {
+  return (
+    <div className="bg-white rounded-lg shadow p-6">
+      <div className="animate-pulse space-y-4">
+        <div className="h-10 bg-gray-200 rounded w-1/4" />
+        <div className="space-y-3">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-12 bg-gray-100 rounded" />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+```
+
+---
+
+## Frontend: Service Layer
+
+### Service Pattern (`services/users.service.ts`)
+
+```typescript
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { authApiClient } from '@/lib/api'
+
+// ==========================================
+// Query Keys Factory
+// ==========================================
+
+export const userKeys = {
+  all: ['users'] as const,
+  lists: () => [...userKeys.all, 'list'] as const,
+  list: (filters?: Record<string, any>) => [...userKeys.lists(), filters] as const,
+  details: () => [...userKeys.all, 'detail'] as const,
+  detail: (id: string) => [...userKeys.details(), id] as const,
+}
+
+// ==========================================
+// Types
+// ==========================================
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  role: string
+}
+
+export interface CreateUserPayload {
+  name: string
+  email: string
+  role: string
+}
+
+export interface UpdateUserPayload {
+  name?: string
+  email?: string
+  role?: string
+}
+
+// ==========================================
+// Query Hooks
+// ==========================================
+
+export function useUsers(filters?: Record<string, any>) {
+  return useQuery({
+    queryKey: userKeys.list(filters),
+    queryFn: async () => {
+      const { data, error } = await authApiClient.users.list.get({
+        query: filters,
+      })
+      if (error) throw error
+      return data
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  })
+}
+
+export function useUser(id: string) {
+  return useQuery({
+    queryKey: userKeys.detail(id),
+    queryFn: async () => {
+      const { data, error } = await authApiClient.users[':id'].get({
+        params: { id },
+      })
+      if (error) throw error
+      return data
+    },
+    staleTime: 5 * 60 * 1000,
+  })
+}
+
+// ==========================================
+// Mutation Hooks
+// ==========================================
+
+export function useCreateUser() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (payload: CreateUserPayload) => {
+      const { data, error } = await authApiClient.users.create.post(payload)
+      if (error) throw error
+      return data
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: userKeys.all })
+    },
+  })
+}
+
+export function useUpdateUser() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ 
+      id, 
+      ...payload 
+    }: UpdateUserPayload & { id: string }) => {
+      const { data, error } = await authApiClient.users[':id'].patch({
+        params: { id },
+        body: payload,
+      })
+      if (error) throw error
+      return data
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: userKeys.detail(data.id) })
+      queryClient.invalidateQueries({ queryKey: userKeys.lists() })
+    },
+  })
+}
+
+export function useDeleteUser() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await authApiClient.users[':id'].delete({
+        params: { id },
+      })
+      if (error) throw error
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: userKeys.all })
+    },
+  })
+}
+```
+
+---
+
+## Backend: Elysia API
+
+### Model (`model.ts`)
+
+```typescript
+import { z } from 'zod'
+
+export const UserModel = {
+  createPayload: z.object({
+    name: z.string().min(1, 'Name is required'),
+    email: z.string().email('Invalid email'),
+    role: z.enum(['admin', 'user', 'viewer']),
+  }),
+
+  updatePayload: z.object({
+    name: z.string().min(1).optional(),
+    email: z.string().email().optional(),
+    role: z.enum(['admin', 'user', 'viewer']).optional(),
+  }),
+
+  params: z.object({
+    id: z.string().uuid(),
+  }),
+
+  queryParams: z.object({
+    page: z.coerce.number().min(1).default(1),
+    limit: z.coerce.number().min(1).max(100).default(20),
+    status: z.enum(['active', 'inactive']).optional(),
+  }),
+}
+
+export type CreateUserPayload = z.infer<typeof UserModel.createPayload>
+export type UpdateUserPayload = z.infer<typeof UserModel.updatePayload>
+export type UserQueryParams = z.infer<typeof UserModel.queryParams>
+```
+
+### Routes (`index.ts`)
+
+```typescript
+import { Elysia } from 'elysia'
+import { authPlugin } from '../../plugins/auth'
+import { auth } from '@sentinow/auth'
+import { UserModel, type CreateUserPayload } from './model'
+
+export const users = new Elysia({ prefix: '/users' })
+  .onTransform(({ path, request: { method } }) => {
+    console.log(`${method} ${path}`)
+  })
+  .use(authPlugin)
+  
+  // GET /users/list
+  .get(
+    '/list',
+    async ({ query, request }) => {
+      const users = await auth.api.listUsers({
+        headers: request.headers,
+        query,
+      })
+      return users
+    },
+    {
+      auth: true,
+      query: UserModel.queryParams,
+    }
+  )
+  
+  // GET /users/:id
+  .get(
+    '/:id',
+    async ({ params, request }) => {
+      const user = await auth.api.getUser({
+        headers: request.headers,
+        params,
+      })
+      return user
+    },
+    {
+      auth: true,
+      params: UserModel.params,
+    }
+  )
+  
+  // POST /users/create
+  .post(
+    '/create',
+    async ({ body, request, set }) => {
+      try {
+        const user = await auth.api.createUser({
+          headers: request.headers,
+          body: body as CreateUserPayload,
+        })
+        return user
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : 'Failed to create user'
+
+        if (errorMessage.includes('email') || errorMessage.includes('unique')) {
+          set.status = 409
+          return {
+            message: 'A user with this email already exists',
+            statusText: 'Conflict',
+          }
+        }
+
+        set.status = 400
+        return {
+          message: errorMessage,
+          statusText: 'Bad Request',
+        }
+      }
+    },
+    {
+      auth: true,
+      body: UserModel.createPayload,
+    }
+  )
+  
+  // PATCH /users/:id
+  .patch(
+    '/:id',
+    async ({ params, body, request, set }) => {
+      try {
+        const user = await auth.api.updateUser({
+          headers: request.headers,
+          params,
+          body,
+        })
+        return user
+      } catch (err) {
+        set.status = 400
+        return {
+          message: err instanceof Error ? err.message : 'Update failed',
+          statusText: 'Bad Request',
+        }
+      }
+    },
+    {
+      auth: true,
+      params: UserModel.params,
+      body: UserModel.updatePayload,
+    }
+  )
+  
+  // DELETE /users/:id
+  .delete(
+    '/:id',
+    async ({ params, request, set }) => {
+      try {
+        await auth.api.deleteUser({
+          headers: request.headers,
+          params,
+        })
+        return { success: true }
+      } catch (err) {
+        set.status = 400
+        return {
+          message: err instanceof Error ? err.message : 'Delete failed',
+          statusText: 'Bad Request',
+        }
+      }
+    },
+    {
+      auth: true,
+      params: UserModel.params,
+    }
+  )
+```
+
+### Register Routes
+
+```typescript
+// apps/auth-server/src/index.ts
+import { users } from './modules/users'
+
+const app = new Elysia()
+  .use(users)
+  .listen(3001)
+```
+
+---
+
+## Optional: Server Caching
+
+Use `'use cache'` for slow-changing data (config, blog posts, etc.) that benefits from server-side caching.
+
+### Cached Server Component
+
+```typescript
+import { cacheLife, cacheTag } from 'next/cache'
+
+async function AppBanner() {
+  'use cache'
+  cacheLife('hours') // Revalidates hourly
+  cacheTag('app-config')
+
+  const { data } = await authApiClient.config.get.get()
+  return <ConfigBanner config={data} />
+}
+
+export default async function Page() {
+  return (
+    <div>
+      {/* Server-cached - revalidates hourly */}
+      <AppBanner />
+
+      {/* Client-fetched - fresh on every visit */}
+      <Suspense fallback={<Skeleton />}>
+        <UsersDataTable />
+      </Suspense>
+    </div>
+  )
+}
+```
+
+### Cache Invalidation
+
+```typescript
+'use server'
+
+import { updateTag } from 'next/cache'
+
+export async function updateAppConfig(data: FormData) {
+  await db.config.update({ data })
+  updateTag('app-config') // Immediate invalidation
+}
+```
+
+### Important Constraints
+
+**Cannot use runtime APIs inside `'use cache'`:**
+
+```typescript
+// ❌ WRONG
+async function CachedProfile() {
+  'use cache'
+  const session = (await cookies()).get('session')?.value // Error!
+  return <div>{session}</div>
+}
+
+// ✅ CORRECT - Extract outside, pass as argument
+async function ProfilePage() {
+  const session = (await cookies()).get('session')?.value
+  return <CachedProfile sessionId={session} />
+}
+
+async function CachedProfile({ sessionId }: { sessionId: string }) {
+  'use cache'
+  const data = await fetchUserData(sessionId)
+  return <div>{data.name}</div>
+}
+```
+
+---
+
+## Best Practices
+
+### ✅ DO: Use Granular Suspense Boundaries
+
+```typescript
+// Each section streams independently
+<Suspense fallback={<MetricsSkeleton />}>
+  <MetricsCards />
+</Suspense>
+
+<Suspense fallback={<TableSkeleton />}>
+  <UsersTable />
+</Suspense>
+```
+
+### ✅ DO: Use useTransition for Filter Updates
+
+```typescript
+const [isPending, startTransition] = useTransition()
+
+const handleFilterChange = (newFilter: string) => {
+  // Prevents Suspense fallback from showing
+  startTransition(() => {
+    setFilter(newFilter)
+  })
+}
+```
+
+### ✅ DO: Use Query Keys Factory Pattern
+
+```typescript
+// Invalidate all user queries
+queryClient.invalidateQueries({ queryKey: userKeys.all })
+
+// Invalidate only lists
+queryClient.invalidateQueries({ queryKey: userKeys.lists() })
+
+// Invalidate specific user
+queryClient.invalidateQueries({ queryKey: userKeys.detail(userId) })
+```
+
+### ✅ DO: Use placeholderData for Smooth Transitions
+
+```typescript
+const { data } = useQuery({
+  queryKey: ['users', page],
+  queryFn: fetchUsers,
+  placeholderData: (prev) => prev, // Keep old data while fetching
+})
+```
+
+### ✅ DO: Handle Errors with Error Boundaries
+
+```typescript
+// app/error.tsx
+'use client'
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  return (
+    <div className="p-4">
+      <h2>Something went wrong!</h2>
+      <p>{error.message}</p>
+      <button onClick={reset}>Try again</button>
+    </div>
+  )
+}
+```
+
+### ❌ DON'T: Mix Server Rendering with Client Data
+
+```typescript
+// ❌ BAD - Can cause hydration mismatches
+export default async function Page() {
+  const data = await fetchData()
+  return (
+    <div>
+      <div>Count: {data.length}</div> {/* Server renders */}
+      <ClientComponent /> {/* Client shows different */}
+    </div>
+  )
+}
+
+// ✅ GOOD - Let client own data
+export default async function Page() {
+  return (
+    <Suspense fallback={<Skeleton />}>
+      <ClientComponent />
+    </Suspense>
+  )
+}
+```
+
+---
+
+## Feature Checklist
+
+### Backend
+- [ ] Create `model.ts` with Zod schemas
+- [ ] Create `index.ts` with route handlers
+- [ ] Add `authPlugin` for protected routes
+- [ ] Validate inputs with Zod schemas
+- [ ] Handle errors with proper HTTP status codes
+- [ ] Export types from Zod schemas
+- [ ] Register routes in main server
+
+### Service Layer
+- [ ] Create service file in `services/`
+- [ ] Define query keys factory
+- [ ] Create type definitions
+- [ ] Implement `useQuery` hooks
+- [ ] Implement `useMutation` hooks
+- [ ] Add error handling
+- [ ] Invalidate queries on mutations
+
+### Frontend Page
+- [ ] Create Server Component (`page.tsx`)
+- [ ] Add authentication check if needed
+- [ ] Add static shell elements
+- [ ] Wrap dynamic sections in Suspense
+- [ ] Create Client Component (`client.tsx`)
+- [ ] Use hooks from service layer
+- [ ] Add loading skeletons
+- [ ] Add error boundaries
+- [ ] Use `useTransition` for filters/pagination
+
+---
+
+## Decision Matrix
+
+| Scenario | Strategy | Implementation |
+|----------|----------|----------------|
+| Static navigation/header | Regular component | Place in page.tsx outside Suspense |
+| Slow-changing config | `'use cache'` | Use with `cacheLife('hours')` |
+| User dashboards/tables | Client `useQuery` | Wrap in Suspense boundary |
+| Interactive filters | `useQuery` + `useTransition` | Prevents Suspense fallback |
+| Real-time notifications | `useQuery` with short `staleTime` | Auto-refetch on focus |
+| Mutations (CRUD) | `useMutation` | With `invalidateQueries` |
+
+---
+
+## Summary
+
+**Architecture:**
+- PPR enabled via `cacheComponents: true`
+- Static shell renders instantly from CDN
+- Suspense boundaries for each dynamic section
+- Client-side `useQuery` for fresh, interactive data
+- Optional `'use cache'` for slow-changing server data
+
+**Benefits:**
+- ✅ Fast initial page load (static shell)
+- ✅ Fresh data on every visit
+- ✅ Simple, maintainable code
+- ✅ Great UX (streaming, optimistic updates)
+- ✅ Type-safe end-to-end
+- ✅ Flexible caching strategies

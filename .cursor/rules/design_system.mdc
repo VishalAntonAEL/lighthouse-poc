@@ -1,0 +1,24 @@
+---
+description: Design System Rules and Guidelines
+globs: packages/ui/**/*, apps/app/**/*.tsx, apps/app/**/*.ts, apps/app/**/*.css
+---
+# Design System Rules
+
+## Token Definitions
+- **Location**: `packages/ui/src/styles/globals.css`
+- **Format**: CSS Variables for colors, spacing, typography.
+- **Tailwind**: Tailwind CSS v4 is used. Configuration is inline in `globals.css` under `@theme`.
+
+## Colors
+- **Usage**: Use CSS variables defined in `globals.css`.
+- **Naming**: Semantic naming preferred (e.g., `--color-background`, `--color-foreground`) over raw values.
+- **Validation**: Ensure colors match the Figma design tokens.
+
+## Components
+- **Structure**: Polymorphic components using `@base-ui/react/use-render` or similar patterns.
+- **Styling**: use `className` with `cn()` utility. Prefer mapped CSS variables over hardcoded values.
+
+## Development Workflow
+1. Check `globals.css` for existing tokens before adding new ones.
+2. Update text components to reflect changes in typography rules.
+3. Clean up unused styles.
