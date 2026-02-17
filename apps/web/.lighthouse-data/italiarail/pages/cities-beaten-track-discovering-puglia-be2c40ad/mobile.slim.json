@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.italiarail.com/cities/beaten-track-discovering-puglia",
+  "finalDisplayedUrl": "https://www.italiarail.com/cities/beaten-track-discovering-puglia",
+  "fetchTime": "2026-02-17T06:27:33.348Z",
+  "formFactor": "mobile",
+  "categories": {
+    "performance": 35,
+    "accessibility": 88,
+    "bestPractices": 54,
+    "seo": 77
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 18,
+      "numericValue": 4289.419366006086,
+      "numericUnit": "millisecond",
+      "displayValue": "4.3 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 0,
+      "numericValue": 13591.907499339935,
+      "numericUnit": "millisecond",
+      "displayValue": "13.6 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 21,
+      "numericValue": 1164.997198292207,
+      "numericUnit": "millisecond",
+      "displayValue": "1,160 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0.031048520153125165,
+      "numericUnit": "unitless",
+      "displayValue": "0.031"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 20,
+      "numericValue": 8253.541535693199,
+      "numericUnit": "millisecond",
+      "displayValue": "8.3 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 4,
+      "numericValue": 17301.571177797134,
+      "numericUnit": "millisecond",
+      "displayValue": "17.3 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "inspector-issues",
+      "title": "Issues were logged in the `Issues` panel in Chrome Devtools",
+      "description": "Issues logged to the `Issues` panel in Chrome Devtools indicate unresolved problems. They can come from network request failures, insufficient security controls, and other browser concerns. Open up the Issues panel in Chrome DevTools for more details on each issue.",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "deprecations",
+      "title": "Uses deprecated APIs",
+      "description": "Deprecated APIs will eventually be removed from the browser. [Learn more about deprecated APIs](https://developer.chrome.com/docs/lighthouse/best-practices/deprecations/).",
+      "displayValue": "2 warnings found",
+      "score": 0
+    },
+    {
+      "id": "color-contrast",
+      "title": "Background and foreground colors do not have a sufficient contrast ratio.",
+      "description": "Low-contrast text is difficult or impossible for many users to read. [Learn how to provide sufficient color contrast](https://dequeuniversity.com/rules/axe/4.11/color-contrast).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "crawlable-anchors",
+      "title": "Links are not crawlable",
+      "description": "Search engines may use `href` attributes on links to crawl websites. Ensure that the `href` attribute of anchor elements links to an appropriate destination, so more pages of the site can be discovered. [Learn how to make links crawlable](https://support.google.com/webmasters/answer/9112205)",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "link-text",
+      "title": "Links do not have descriptive text",
+      "description": "Descriptive link text helps search engines understand your content. [Learn how to make links more accessible](https://developer.chrome.com/docs/lighthouse/seo/link-text/).",
+      "displayValue": "3 links found",
+      "score": 0
+    },
+    {
+      "id": "max-potential-fid",
+      "title": "Max Potential First Input Delay",
+      "description": "The maximum potential First Input Delay that your users could experience is the duration of the longest task. [Learn more about the Maximum Potential First Input Delay metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-max-potential-fid/).",
+      "displayValue": "1,130 ms",
+      "score": 0
+    },
+    {
+      "id": "unused-javascript",
+      "title": "Reduce unused JavaScript",
+      "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+      "displayValue": "Est savings of 206 KiB",
+      "score": 0
+    },
+    {
+      "id": "unused-css-rules",
+      "title": "Reduce unused CSS",
+      "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+      "displayValue": "Est savings of 59 KiB",
+      "score": 0
+    }
+  ]
+}

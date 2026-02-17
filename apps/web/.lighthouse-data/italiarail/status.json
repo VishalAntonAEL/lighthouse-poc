@@ -1,0 +1,14 @@
+{
+  "jobId": "6c326131-c0e2-4ac2-9673-9fdd9e25bf5f",
+  "baseUrl": "https://www.italiarail.com/",
+  "siteSlug": "italiarail",
+  "status": "running",
+  "progress": {
+    "discovered": 1286,
+    "crawled": 1286,
+    "audited": 1286,
+    "totalTarget": 1286
+  },
+  "startedAt": "2026-02-17T06:04:34.182Z",
+  "finishedAt": null
+}

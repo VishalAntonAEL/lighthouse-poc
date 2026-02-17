@@ -1,0 +1,557 @@
+{
+  "desktop": {
+    "key": {
+      "formFactor": "DESKTOP",
+      "origin": "https://www.italiarail.com"
+    },
+    "metrics": {
+      "largest_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 2500,
+            "density": 0.9056
+          },
+          {
+            "start": 2500,
+            "end": 4000,
+            "density": 0.0722
+          },
+          {
+            "start": 4000,
+            "density": 0.0222
+          }
+        ],
+        "percentiles": {
+          "p75": 1729
+        }
+      },
+      "largest_contentful_paint_image_resource_load_delay": {
+        "percentiles": {
+          "p75": 161
+        }
+      },
+      "largest_contentful_paint_image_resource_load_duration": {
+        "percentiles": {
+          "p75": 234
+        }
+      },
+      "round_trip_time": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 75,
+            "density": 0.6979
+          },
+          {
+            "start": 75,
+            "end": 275,
+            "density": 0.2887
+          },
+          {
+            "start": 275,
+            "density": 0.0133
+          }
+        ],
+        "percentiles": {
+          "p75": 81
+        }
+      },
+      "cumulative_layout_shift": {
+        "histogram": [
+          {
+            "start": "0.00",
+            "end": "0.10",
+            "density": 0.7195
+          },
+          {
+            "start": "0.10",
+            "end": "0.25",
+            "density": 0.0531
+          },
+          {
+            "start": "0.25",
+            "density": 0.2275
+          }
+        ],
+        "percentiles": {
+          "p75": "0.16"
+        }
+      },
+      "experimental_time_to_first_byte": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 800,
+            "density": 0.5412
+          },
+          {
+            "start": 800,
+            "end": 1800,
+            "density": 0.3854
+          },
+          {
+            "start": 1800,
+            "density": 0.0733
+          }
+        ],
+        "percentiles": {
+          "p75": 1278
+        }
+      },
+      "first_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 1800,
+            "density": 0.8259
+          },
+          {
+            "start": 1800,
+            "end": 3000,
+            "density": 0.1425
+          },
+          {
+            "start": 3000,
+            "density": 0.0316
+          }
+        ],
+        "percentiles": {
+          "p75": 1600
+        }
+      },
+      "largest_contentful_paint_image_element_render_delay": {
+        "percentiles": {
+          "p75": 246
+        }
+      },
+      "largest_contentful_paint_image_time_to_first_byte": {
+        "percentiles": {
+          "p75": 1195
+        }
+      },
+      "largest_contentful_paint_resource_type": {
+        "fractions": {
+          "image": 0.5371,
+          "text": 0.4629
+        }
+      },
+      "navigation_types": {
+        "fractions": {
+          "restore": 0.0043,
+          "back_forward": 0.071,
+          "back_forward_cache": 0,
+          "prerender": 0.0038,
+          "navigate": 0.8729,
+          "navigate_cache": 0.0413,
+          "reload": 0.0067
+        }
+      },
+      "interaction_to_next_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 200,
+            "density": 0.8653
+          },
+          {
+            "start": 200,
+            "end": 500,
+            "density": 0.1194
+          },
+          {
+            "start": 500,
+            "density": 0.0154
+          }
+        ],
+        "percentiles": {
+          "p75": 168
+        }
+      }
+    },
+    "collectionPeriod": {
+      "firstDate": {
+        "year": 2026,
+        "month": 1,
+        "day": 19
+      },
+      "lastDate": {
+        "year": 2026,
+        "month": 2,
+        "day": 15
+      }
+    }
+  },
+  "mobile": {
+    "key": {
+      "formFactor": "PHONE",
+      "origin": "https://www.italiarail.com"
+    },
+    "metrics": {
+      "round_trip_time": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 75,
+            "density": 0.5117
+          },
+          {
+            "start": 75,
+            "end": 275,
+            "density": 0.4307
+          },
+          {
+            "start": 275,
+            "density": 0.0576
+          }
+        ],
+        "percentiles": {
+          "p75": 122
+        }
+      },
+      "cumulative_layout_shift": {
+        "histogram": [
+          {
+            "start": "0.00",
+            "end": "0.10",
+            "density": 0.9291
+          },
+          {
+            "start": "0.10",
+            "end": "0.25",
+            "density": 0.0253
+          },
+          {
+            "start": "0.25",
+            "density": 0.0456
+          }
+        ],
+        "percentiles": {
+          "p75": "0.02"
+        }
+      },
+      "interaction_to_next_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 200,
+            "density": 0.6105
+          },
+          {
+            "start": 200,
+            "end": 500,
+            "density": 0.3696
+          },
+          {
+            "start": 500,
+            "density": 0.0198
+          }
+        ],
+        "percentiles": {
+          "p75": 229
+        }
+      },
+      "largest_contentful_paint_image_element_render_delay": {
+        "percentiles": {
+          "p75": 215
+        }
+      },
+      "largest_contentful_paint_image_resource_load_delay": {
+        "percentiles": {
+          "p75": 184
+        }
+      },
+      "largest_contentful_paint_image_resource_load_duration": {
+        "percentiles": {
+          "p75": 340
+        }
+      },
+      "largest_contentful_paint_image_time_to_first_byte": {
+        "percentiles": {
+          "p75": 1298
+        }
+      },
+      "experimental_time_to_first_byte": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 800,
+            "density": 0.5797
+          },
+          {
+            "start": 800,
+            "end": 1800,
+            "density": 0.2755
+          },
+          {
+            "start": 1800,
+            "density": 0.1448
+          }
+        ],
+        "percentiles": {
+          "p75": 1458
+        }
+      },
+      "first_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 1800,
+            "density": 0.7166
+          },
+          {
+            "start": 1800,
+            "end": 3000,
+            "density": 0.2049
+          },
+          {
+            "start": 3000,
+            "density": 0.0785
+          }
+        ],
+        "percentiles": {
+          "p75": 1928
+        }
+      },
+      "largest_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 2500,
+            "density": 0.8499
+          },
+          {
+            "start": 2500,
+            "end": 4000,
+            "density": 0.1129
+          },
+          {
+            "start": 4000,
+            "density": 0.0372
+          }
+        ],
+        "percentiles": {
+          "p75": 2020
+        }
+      },
+      "largest_contentful_paint_resource_type": {
+        "fractions": {
+          "image": 0.5284,
+          "text": 0.4716
+        }
+      },
+      "navigation_types": {
+        "fractions": {
+          "back_forward_cache": 0.0287,
+          "prerender": 0,
+          "navigate": 0.7664,
+          "navigate_cache": 0.0681,
+          "reload": 0.0257,
+          "restore": 0,
+          "back_forward": 0.1111
+        }
+      }
+    },
+    "collectionPeriod": {
+      "firstDate": {
+        "year": 2026,
+        "month": 1,
+        "day": 19
+      },
+      "lastDate": {
+        "year": 2026,
+        "month": 2,
+        "day": 15
+      }
+    }
+  },
+  "combined": {
+    "key": {
+      "origin": "https://www.italiarail.com"
+    },
+    "metrics": {
+      "cumulative_layout_shift": {
+        "histogram": [
+          {
+            "start": "0.00",
+            "end": "0.10",
+            "density": 0.8048
+          },
+          {
+            "start": "0.10",
+            "end": "0.25",
+            "density": 0.0425
+          },
+          {
+            "start": "0.25",
+            "density": 0.1527
+          }
+        ],
+        "percentiles": {
+          "p75": "0.04"
+        }
+      },
+      "experimental_time_to_first_byte": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 800,
+            "density": 0.5592
+          },
+          {
+            "start": 800,
+            "end": 1800,
+            "density": 0.3357
+          },
+          {
+            "start": 1800,
+            "density": 0.105
+          }
+        ],
+        "percentiles": {
+          "p75": 1343
+        }
+      },
+      "first_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 1800,
+            "density": 0.7805
+          },
+          {
+            "start": 1800,
+            "end": 3000,
+            "density": 0.169
+          },
+          {
+            "start": 3000,
+            "density": 0.0505
+          }
+        ],
+        "percentiles": {
+          "p75": 1704
+        }
+      },
+      "form_factors": {
+        "fractions": {
+          "desktop": 0.5816,
+          "phone": 0.4004,
+          "tablet": 0.018
+        }
+      },
+      "largest_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 2500,
+            "density": 0.8822
+          },
+          {
+            "start": 2500,
+            "end": 4000,
+            "density": 0.0892
+          },
+          {
+            "start": 4000,
+            "density": 0.0286
+          }
+        ],
+        "percentiles": {
+          "p75": 1847
+        }
+      },
+      "largest_contentful_paint_image_resource_load_delay": {
+        "percentiles": {
+          "p75": 174
+        }
+      },
+      "largest_contentful_paint_image_time_to_first_byte": {
+        "percentiles": {
+          "p75": 1231
+        }
+      },
+      "largest_contentful_paint_resource_type": {
+        "fractions": {
+          "image": 0.5333,
+          "text": 0.4667
+        }
+      },
+      "interaction_to_next_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 200,
+            "density": 0.7751
+          },
+          {
+            "start": 200,
+            "end": 500,
+            "density": 0.2074
+          },
+          {
+            "start": 500,
+            "density": 0.0175
+          }
+        ],
+        "percentiles": {
+          "p75": 193
+        }
+      },
+      "largest_contentful_paint_image_element_render_delay": {
+        "percentiles": {
+          "p75": 229
+        }
+      },
+      "largest_contentful_paint_image_resource_load_duration": {
+        "percentiles": {
+          "p75": 293
+        }
+      },
+      "navigation_types": {
+        "fractions": {
+          "prerender": 0.0022,
+          "navigate": 0.8284,
+          "navigate_cache": 0.0526,
+          "reload": 0.0148,
+          "restore": 0.0025,
+          "back_forward": 0.0872,
+          "back_forward_cache": 0.0123
+        }
+      },
+      "round_trip_time": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 75,
+            "density": 0.6265
+          },
+          {
+            "start": 75,
+            "end": 275,
+            "density": 0.3444
+          },
+          {
+            "start": 275,
+            "density": 0.0291
+          }
+        ],
+        "percentiles": {
+          "p75": 95
+        }
+      }
+    },
+    "collectionPeriod": {
+      "firstDate": {
+        "year": 2026,
+        "month": 1,
+        "day": 19
+      },
+      "lastDate": {
+        "year": 2026,
+        "month": 2,
+        "day": 15
+      }
+    }
+  }
+}
