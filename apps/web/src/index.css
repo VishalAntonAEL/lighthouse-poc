@@ -135,3 +135,98 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+@layer components {
+	.report-latest-page {
+		--report-accent: oklch(0.58 0.17 252.4);
+		--report-shell-bg:
+			linear-gradient(
+				135deg,
+				color-mix(in oklch, var(--background) 84%, var(--report-accent) 16%),
+				color-mix(in oklch, var(--background) 96%, black 4%)
+			);
+	}
+
+	.dark .report-latest-page {
+		--report-shell-bg:
+			linear-gradient(
+				135deg,
+				color-mix(in oklch, var(--background) 88%, var(--report-accent) 12%),
+				color-mix(in oklch, var(--background) 96%, white 4%)
+			);
+	}
+
+	.report-shell {
+		background: var(--report-shell-bg);
+		@apply rounded-2xl border border-border/70 shadow-sm;
+	}
+
+	.report-shell-eyebrow {
+		@apply text-[11px] uppercase tracking-[0.16em] text-muted-foreground;
+	}
+
+	.report-shell-title {
+		font-family: var(--font-geist-mono), ui-monospace, monospace;
+		@apply text-balance text-2xl font-semibold tracking-tight md:text-3xl;
+	}
+
+	.report-meta-label {
+		@apply uppercase tracking-[0.14em] text-muted-foreground;
+	}
+
+	.report-tabs-list {
+		@apply border-b border-border pb-1;
+	}
+
+	.report-surface {
+		@apply rounded-xl border border-border/70 shadow-sm;
+	}
+
+	.report-kpi-card {
+		@apply rounded-xl bg-card/90 shadow-sm;
+	}
+
+	.report-kpi-accent {
+		background: color-mix(in oklch, var(--background) 76%, var(--report-accent) 24%);
+	}
+
+	.report-kpi-label {
+		@apply text-[11px] uppercase tracking-[0.14em] text-muted-foreground;
+	}
+
+	.report-kpi-value {
+		font-family: var(--font-geist-mono), ui-monospace, monospace;
+		@apply text-3xl font-semibold tracking-tight;
+	}
+
+	.report-detail-callout {
+		@apply shadow-none;
+	}
+
+	@keyframes report-fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(8px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.report-reveal {
+		animation: report-fade-up 0.48s ease-out both;
+	}
+
+	.report-reveal:nth-child(2) {
+		animation-delay: 60ms;
+	}
+
+	.report-reveal:nth-child(3) {
+		animation-delay: 100ms;
+	}
+
+	.report-reveal:nth-child(4) {
+		animation-delay: 140ms;
+	}
+}

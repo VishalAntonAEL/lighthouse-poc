@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -38,6 +39,8 @@ export default function UrlTable({
 	const [query, setQuery] = useState("");
 	const [sortBy, setSortBy] = useState("worst");
 	const [statusFilter, setStatusFilter] = useState("all");
+	const [page, setPage] = useState(1);
+	const [pageSize, setPageSize] = useState(25);
 
 	const filtered = useMemo(() => {
 		const byQuery = pages.filter((page) =>
@@ -78,6 +81,16 @@ export default function UrlTable({
 		return sorted;
 	}, [pages, query, sortBy, statusFilter]);
 
+	useEffect(() => {
+		setPage(1);
+	}, [query, sortBy, statusFilter, pageSize]);
+
+	const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+	const currentPage = Math.min(page, totalPages);
+	const startIndex = (currentPage - 1) * pageSize;
+	const endIndex = startIndex + pageSize;
+	const pagedRows = filtered.slice(startIndex, endIndex);
+
 	return (
 		<Card>
 			<CardHeader className="border-b">
@@ -90,24 +103,35 @@ export default function UrlTable({
 						value={query}
 						onChange={(event) => setQuery(event.target.value)}
 					/>
-					<select
-						className="h-8 border bg-background px-2 text-xs"
-						value={sortBy}
-						onChange={(event) => setSortBy(event.target.value)}
-					>
-						<option value="worst">Sort: Worst first</option>
-						<option value="best">Sort: Best first</option>
-						<option value="url">Sort: URL</option>
-					</select>
-					<select
-						className="h-8 border bg-background px-2 text-xs"
-						value={statusFilter}
-						onChange={(event) => setStatusFilter(event.target.value)}
-					>
-						<option value="all">Status: All</option>
-						<option value="ok">Status: Success only</option>
-						<option value="errors">Status: Any errors</option>
-					</select>
+					<div className="flex gap-2 md:justify-end">
+						<select
+							className="h-8 border bg-background px-2 text-xs"
+							value={sortBy}
+							onChange={(event) => setSortBy(event.target.value)}
+						>
+							<option value="worst">Sort: Worst first</option>
+							<option value="best">Sort: Best first</option>
+							<option value="url">Sort: URL</option>
+						</select>
+						<select
+							className="h-8 border bg-background px-2 text-xs"
+							value={statusFilter}
+							onChange={(event) => setStatusFilter(event.target.value)}
+						>
+							<option value="all">Status: All</option>
+							<option value="ok">Status: Success only</option>
+							<option value="errors">Status: Any errors</option>
+						</select>
+						<select
+							className="h-8 border bg-background px-2 text-xs"
+							value={pageSize}
+							onChange={(event) => setPageSize(Number(event.target.value))}
+						>
+							<option value={25}>25 / page</option>
+							<option value={50}>50 / page</option>
+							<option value={100}>100 / page</option>
+						</select>
+					</div>
 				</div>
 
 				<Table>
@@ -122,7 +146,7 @@ export default function UrlTable({
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{filtered.map((page) => {
+						{pagedRows.map((page) => {
 							const isSelected = page.slug === selectedSlug;
 							return (
 								<TableRow
@@ -186,6 +210,36 @@ export default function UrlTable({
 						})}
 					</TableBody>
 				</Table>
+
+				<div className="flex flex-wrap items-center justify-between gap-2">
+					<p className="text-muted-foreground text-xs">
+						Showing {filtered.length === 0 ? 0 : startIndex + 1}-
+						{Math.min(endIndex, filtered.length)} of {filtered.length}
+					</p>
+					<div className="flex items-center gap-2">
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() => setPage((previous) => Math.max(1, previous - 1))}
+							disabled={currentPage <= 1}
+						>
+							Previous
+						</Button>
+						<p className="text-xs">
+							Page {currentPage} of {totalPages}
+						</p>
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={() =>
+								setPage((previous) => Math.min(totalPages, previous + 1))
+							}
+							disabled={currentPage >= totalPages}
+						>
+							Next
+						</Button>
+					</div>
+				</div>
 			</CardContent>
 		</Card>
 	);

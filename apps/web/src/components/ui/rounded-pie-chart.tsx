@@ -2,6 +2,7 @@
 
 import { LabelList, Pie, PieChart } from "recharts";
 
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import {
 	Card,
@@ -28,6 +29,9 @@ type RoundedPieChartProps = {
 	description: string;
 	data: RoundedPieDatum[];
 	badgeText?: string;
+	subtitle?: string;
+	className?: string;
+	valueFormatter?: (value: number) => string;
 };
 
 export function RoundedPieChart({
@@ -35,6 +39,9 @@ export function RoundedPieChart({
 	description,
 	data,
 	badgeText,
+	subtitle,
+	className,
+	valueFormatter,
 }: RoundedPieChartProps) {
 	const chartConfig = data.reduce<
 		Record<string, { label: string; color: string }>
@@ -47,7 +54,7 @@ export function RoundedPieChart({
 	}, {});
 
 	return (
-		<Card className="flex flex-col">
+		<Card className={cn("flex flex-col", className)}>
 			<CardHeader className="items-center pb-0">
 				<CardTitle>
 					{title}
@@ -61,6 +68,9 @@ export function RoundedPieChart({
 					) : null}
 				</CardTitle>
 				<CardDescription>{description}</CardDescription>
+				{subtitle ? (
+					<p className="text-muted-foreground text-xs">{subtitle}</p>
+				) : null}
 			</CardHeader>
 			<CardContent className="flex-1 pb-0">
 				<ChartContainer
@@ -82,7 +92,13 @@ export function RoundedPieChart({
 								stroke="none"
 								fontSize={11}
 								fontWeight={500}
-								formatter={(value: number | string) => `${value}`}
+								formatter={(value: number | string) => {
+									const parsed = Number(value);
+									if (Number.isNaN(parsed)) {
+										return `${value}`;
+									}
+									return valueFormatter ? valueFormatter(parsed) : `${parsed}`;
+								}}
 							/>
 						</Pie>
 					</PieChart>

@@ -5,6 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { AuditPageResult, DeviceResult } from "@/lib/audit/types";
 
+import {
+	CategoryScoreCards,
+	ScoreScaleLegend,
+	toCategoryScoreItems,
+} from "./category-score-cards";
 import CruxSection from "./crux-section";
 import LabVsField from "./lab-vs-field";
 import { formatScore, scoreTone } from "./score-utils";
@@ -21,23 +26,12 @@ type PageDrilldownProps = {
 function DevicePanel({ device }: { device: DeviceResult }) {
 	return (
 		<div className="grid gap-3">
-			<div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-				{[
-					["Performance", device.scores?.performance ?? null],
-					["Accessibility", device.scores?.accessibility ?? null],
-					["Best Practices", device.scores?.bestPractices ?? null],
-					["SEO", device.scores?.seo ?? null],
-				].map(([label, score]) => (
-					<div key={label as string} className="rounded-none border p-2">
-						<p className="text-muted-foreground text-xs">{label}</p>
-						<Badge
-							className={scoreTone(score as number | null)}
-							variant="outline"
-						>
-							{formatScore(score as number | null)}
-						</Badge>
-					</div>
-				))}
+			<div className="grid gap-2">
+				<div className="flex flex-wrap items-center justify-between gap-2">
+					<p className="font-medium text-xs uppercase">Category Scores</p>
+					<ScoreScaleLegend />
+				</div>
+				<CategoryScoreCards items={toCategoryScoreItems(device.scores)} />
 			</div>
 
 			{device.errorMessage ? (

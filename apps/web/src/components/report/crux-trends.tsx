@@ -81,18 +81,7 @@ export default function CruxTrends({ cruxHistory }: CruxTrendsProps) {
 	const trendData = prepareTrendData(cruxHistory);
 
 	if (trendData.length === 0) {
-		return (
-			<Card>
-				<CardHeader className="border-b">
-					<CardTitle className="text-sm">Historical Trends (CrUX)</CardTitle>
-				</CardHeader>
-				<CardContent className="pt-4">
-					<p className="text-muted-foreground text-xs">
-						No historical data available.
-					</p>
-				</CardContent>
-			</Card>
-		);
+		return null;
 	}
 
 	const lcpTrend = getTrendDirection(trendData, "lcp");

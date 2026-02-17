@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Bar, BarChart, Cell, ReferenceLine, XAxis } from "recharts";
 
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import {
 	Card,
@@ -25,6 +26,8 @@ type ValueLineBarChartProps = {
 	target: number;
 	badgeText?: string;
 	valuePrefix?: string;
+	targetLabel?: string;
+	className?: string;
 };
 
 const chartConfig = {
@@ -41,6 +44,8 @@ export function ValueLineBarChart({
 	target,
 	badgeText,
 	valuePrefix = "",
+	targetLabel,
+	className,
 }: ValueLineBarChartProps) {
 	const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
 	const highlightedIndex =
@@ -52,15 +57,20 @@ export function ValueLineBarChart({
 	const highlightedValue = data[highlightedIndex]?.value ?? 0;
 
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle className="flex items-center gap-2">
-					<span className="font-mono text-2xl tracking-tight">
-						{valuePrefix}
-						{highlightedValue}
-					</span>
+		<Card className={cn(className)}>
+			<CardHeader className="gap-2 border-b">
+				<div className="flex items-center justify-between gap-2">
+					<div>
+						<p className="text-muted-foreground text-[11px] uppercase tracking-[0.14em]">
+							{title}
+						</p>
+						<CardTitle className="font-mono text-2xl tracking-tight">
+							{valuePrefix}
+							{highlightedValue}
+						</CardTitle>
+					</div>
 					{badgeText ? <Badge variant="secondary">{badgeText}</Badge> : null}
-				</CardTitle>
+				</div>
 				<CardDescription>{description}</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -93,7 +103,7 @@ export function ValueLineBarChart({
 							strokeDasharray="3 3"
 							stroke="var(--secondary-foreground)"
 							label={{
-								value: `${title} target ${target}`,
+								value: targetLabel ?? `${title} target ${target}`,
 								position: "insideTopRight",
 								fill: "var(--secondary-foreground)",
 								fontSize: 10,
