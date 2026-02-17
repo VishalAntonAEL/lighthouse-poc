@@ -230,33 +230,33 @@ export default function ExecutiveSummaryTab({
 					</CardContent>
 				</Card>
 
-				<Card className="report-surface">
+				<Card className="report-surface min-w-0">
 					<CardHeader className="border-b">
 						<CardTitle className="flex items-center gap-2">
 							<ShieldCheck className="size-4 text-emerald-600" />
 							Priority URL Watchlist
 						</CardTitle>
 					</CardHeader>
-					<CardContent className="grid gap-2 pt-4">
+					<CardContent className="grid gap-2 pt-4 min-w-0">
 						{viewModel.watchlist.map((page) => (
 							<div
 								key={page.slug}
-								className="group grid gap-2 rounded-lg border border-border/70 p-3 transition-colors hover:bg-muted/40"
+								className="group grid min-w-0 gap-2 rounded-lg border border-border/70 p-3 transition-colors hover:bg-muted/40"
 							>
-								<div className="flex items-center justify-between gap-2">
-									<p className="max-w-[75%] truncate font-medium text-xs">
+								<div className="flex min-w-0 items-center justify-between gap-2">
+									<p className="min-w-0 truncate font-medium text-xs" title={page.url}>
 										{page.url}
 									</p>
 									<button
 										type="button"
-										className="inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs transition-colors hover:border-foreground/30 hover:bg-background"
+										className="shrink-0 inline-flex items-center gap-1 rounded-md border px-2 py-1 text-xs transition-colors hover:border-foreground/30 hover:bg-background"
 										onClick={() => onInspectSlug(page.slug)}
 									>
 										Inspect
 										<ArrowUpRight className="size-3" />
 									</button>
 								</div>
-								<div className="flex flex-wrap items-center gap-2">
+								<div className="flex min-w-0 flex-wrap items-center gap-2">
 									<Badge
 										variant="outline"
 										className={scoreTone(page.combinedScore)}

@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import CruxSection from "@/components/report/crux-section";
 import CruxTrends from "@/components/report/crux-trends";
 import PageDrilldown from "@/components/report/page-drilldown";
+import { resolveDrilldownPage } from "@/components/report/report-page-utils";
 import RunMeta from "@/components/report/run-meta";
 import UrlTable from "@/components/report/url-table";
 import { Badge } from "@/components/ui/badge";
@@ -69,7 +70,17 @@ export default function DetailedDiagnosticsTab({
 	const selectedPage = useMemo(() => {
 		return manifest.pages.find((page) => page.slug === selectedSlug) ?? null;
 	}, [manifest.pages, selectedSlug]);
+	const drilldownPage = useMemo(
+		() => resolveDrilldownPage(manifest.pages, selectedSlug),
+		[manifest.pages, selectedSlug],
+	);
 	const showTrendChart = hasCruxTrendData(manifest);
+
+	useEffect(() => {
+		if (drilldownPage && drilldownPage.slug !== selectedSlug) {
+			onSelectSlug(drilldownPage.slug);
+		}
+	}, [drilldownPage, selectedSlug, onSelectSlug]);
 
 	return (
 		<div className="grid gap-4">
@@ -105,7 +116,10 @@ export default function DetailedDiagnosticsTab({
 				onSelect={(page) => onSelectSlug(page.slug)}
 			/>
 
-			<PageDrilldown page={selectedPage} originCrux={manifest.originCrux} />
+			<PageDrilldown
+				page={drilldownPage ?? selectedPage}
+				originCrux={manifest.originCrux}
+			/>
 		</div>
 	);
 }

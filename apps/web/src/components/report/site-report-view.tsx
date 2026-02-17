@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getReportManifestAction } from "@/app/actions/audit-actions";
 import DetailedDiagnosticsTab from "@/components/report/detailed-diagnostics-tab";
 import ExecutiveSummaryTab from "@/components/report/executive-summary-tab";
+import { getFirstPageWithValues } from "@/components/report/report-page-utils";
 import { buildExecutiveViewModel } from "@/components/report/report-view-model";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -55,7 +56,7 @@ export default function SiteReportView({ siteSlug }: SiteReportViewProps) {
 				if (previous && manifest.pages.some((page) => page.slug === previous)) {
 					return previous;
 				}
-				return manifest.pages[0]?.slug ?? null;
+				return getFirstPageWithValues(manifest.pages)?.slug ?? null;
 			});
 		} catch (error) {
 			setLoadState({
