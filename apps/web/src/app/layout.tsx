@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "lighthouse-poc",
-	description: "lighthouse-poc",
+	title: "Sentinow | Lighthouse",
+	description: "Lighthouse testing for enterprises",
 };
 
 export default function RootLayout({
