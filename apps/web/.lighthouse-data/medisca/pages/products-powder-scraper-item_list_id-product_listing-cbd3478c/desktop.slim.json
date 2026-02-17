@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.medisca.com.au/products/powder-scraper?item_list_id=product_listing",
+  "finalDisplayedUrl": "https://www.medisca.com.au/products/powder-scraper?item_list_id=product_listing",
+  "fetchTime": "2026-02-15T15:28:00.567Z",
+  "formFactor": "desktop",
+  "categories": {
+    "performance": 90,
+    "accessibility": 80,
+    "bestPractices": 96,
+    "seo": 85
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 100,
+      "numericValue": 416,
+      "numericUnit": "millisecond",
+      "displayValue": "0.4 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 92,
+      "numericValue": 1122.0007581710815,
+      "numericUnit": "millisecond",
+      "displayValue": "1.1 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 95,
+      "numericValue": 117,
+      "numericUnit": "millisecond",
+      "displayValue": "120 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0.00000921153124695016,
+      "numericUnit": "unitless",
+      "displayValue": "0"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 39,
+      "numericValue": 2597.7235664462046,
+      "numericUnit": "millisecond",
+      "displayValue": "2.6 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 96,
+      "numericValue": 1991.3152305186543,
+      "numericUnit": "millisecond",
+      "displayValue": "2.0 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "canonical",
+      "title": "Document does not have a valid `rel=canonical`",
+      "description": "Canonical links suggest which URL to show in search results. [Learn more about canonical links](https://developer.chrome.com/docs/lighthouse/seo/canonical/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "button-name",
+      "title": "Buttons do not have an accessible name",
+      "description": "When a button doesn't have an accessible name, screen readers announce it as \"button\", making it unusable for users who rely on screen readers. [Learn how to make buttons more accessible](https://dequeuniversity.com/rules/axe/4.11/button-name).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "lcp-discovery-insight",
+      "title": "LCP request discovery",
+      "description": "[Optimize LCP](https://developer.chrome.com/docs/performance/insights/lcp-discovery) by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loading",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "aria-allowed-attr",
+      "title": "`[aria-*]` attributes do not match their roles",
+      "description": "Each ARIA `role` supports a specific subset of `aria-*` attributes. Mismatching these invalidates the `aria-*` attributes. [Learn how to match ARIA attributes to their roles](https://dequeuniversity.com/rules/axe/4.11/aria-allowed-attr).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "dlitem",
+      "title": "Definition list items are not wrapped in `<dl>` elements",
+      "description": "Definition list items (`<dt>` and `<dd>`) must be wrapped in a parent `<dl>` element to ensure that screen readers can properly announce them. [Learn how to structure definition lists correctly](https://dequeuniversity.com/rules/axe/4.11/dlitem).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "link-name",
+      "title": "Links do not have a discernible name",
+      "description": "Link text (and alternate text for images, when used as links) that is discernible, unique, and focusable improves the navigation experience for screen reader users. [Learn how to make links accessible](https://dequeuniversity.com/rules/axe/4.11/link-name).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "hreflang",
+      "title": "Document doesn't have a valid `hreflang`",
+      "description": "hreflang links tell search engines what version of a page they should list in search results for a given language or region. [Learn more about `hreflang`](https://developer.chrome.com/docs/lighthouse/seo/hreflang/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "image-aspect-ratio",
+      "title": "Displays images with incorrect aspect ratio",
+      "description": "Image display dimensions should match natural aspect ratio. [Learn more about image aspect ratio](https://developer.chrome.com/docs/lighthouse/best-practices/image-aspect-ratio/).",
+      "displayValue": null,
+      "score": 0
+    }
+  ]
+}

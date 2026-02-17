@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.medisca.com.au/products/collasil-osa-dietary-supplement-grade?item_list_id=product_listing",
+  "finalDisplayedUrl": "https://www.medisca.com.au/products/collasil-osa-dietary-supplement-grade?item_list_id=product_listing",
+  "fetchTime": "2026-02-15T14:19:49.817Z",
+  "formFactor": "mobile",
+  "categories": {
+    "performance": 73,
+    "accessibility": 85,
+    "bestPractices": 96,
+    "seo": 85
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 89,
+      "numericValue": 1801.0046077036352,
+      "numericUnit": "millisecond",
+      "displayValue": "1.8 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 16,
+      "numericValue": 5701.016587733084,
+      "numericUnit": "millisecond",
+      "displayValue": "5.7 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 100,
+      "numericValue": 49,
+      "numericUnit": "millisecond",
+      "displayValue": "50 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0.00005594863215359326,
+      "numericUnit": "unitless",
+      "displayValue": "0"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 54,
+      "numericValue": 5535.366928454567,
+      "numericUnit": "millisecond",
+      "displayValue": "5.5 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 68,
+      "numericValue": 5731.016679887157,
+      "numericUnit": "millisecond",
+      "displayValue": "5.7 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "button-name",
+      "title": "Buttons do not have an accessible name",
+      "description": "When a button doesn't have an accessible name, screen readers announce it as \"button\", making it unusable for users who rely on screen readers. [Learn how to make buttons more accessible](https://dequeuniversity.com/rules/axe/4.11/button-name).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "unused-javascript",
+      "title": "Reduce unused JavaScript",
+      "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+      "displayValue": "Est savings of 188 KiB",
+      "score": 0
+    },
+    {
+      "id": "canonical",
+      "title": "Document does not have a valid `rel=canonical`",
+      "description": "Canonical links suggest which URL to show in search results. [Learn more about canonical links](https://developer.chrome.com/docs/lighthouse/seo/canonical/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "network-dependency-tree-insight",
+      "title": "Network dependency tree",
+      "description": "[Avoid chaining critical requests](https://developer.chrome.com/docs/performance/insights/network-dependency-tree) by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load.",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "lcp-discovery-insight",
+      "title": "LCP request discovery",
+      "description": "[Optimize LCP](https://developer.chrome.com/docs/performance/insights/lcp-discovery) by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loading",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "link-name",
+      "title": "Links do not have a discernible name",
+      "description": "Link text (and alternate text for images, when used as links) that is discernible, unique, and focusable improves the navigation experience for screen reader users. [Learn how to make links accessible](https://dequeuniversity.com/rules/axe/4.11/link-name).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "font-display-insight",
+      "title": "Font display",
+      "description": "Consider setting [font-display](https://developer.chrome.com/docs/performance/insights/font-display) to swap or optional to ensure text is consistently visible. swap can be further optimized to mitigate layout shifts with [font metric overrides](https://developer.chrome.com/blog/font-fallbacks).",
+      "displayValue": "Est savings of 190 ms",
+      "score": 0
+    },
+    {
+      "id": "hreflang",
+      "title": "Document doesn't have a valid `hreflang`",
+      "description": "hreflang links tell search engines what version of a page they should list in search results for a given language or region. [Learn more about `hreflang`](https://developer.chrome.com/docs/lighthouse/seo/hreflang/).",
+      "displayValue": null,
+      "score": 0
+    }
+  ]
+}

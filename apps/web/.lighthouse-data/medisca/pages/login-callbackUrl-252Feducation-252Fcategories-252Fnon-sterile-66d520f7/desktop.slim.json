@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.medisca.com.au/login?callbackUrl=%252Feducation%252Fcategories%252Fnon-sterile",
+  "finalDisplayedUrl": "https://www.medisca.com.au/login?callbackUrl=%252Feducation%252Fcategories%252Fnon-sterile",
+  "fetchTime": "2026-02-15T13:27:06.511Z",
+  "formFactor": "desktop",
+  "categories": {
+    "performance": 91,
+    "accessibility": 87,
+    "bestPractices": 96,
+    "seo": 85
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 100,
+      "numericValue": 365.0001807718842,
+      "numericUnit": "millisecond",
+      "displayValue": "0.4 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 73,
+      "numericValue": 1702.8469540172537,
+      "numericUnit": "millisecond",
+      "displayValue": "1.7 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 100,
+      "numericValue": 38.5,
+      "numericUnit": "millisecond",
+      "displayValue": "40 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0.000028663668382487465,
+      "numericUnit": "unitless",
+      "displayValue": "0"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 73,
+      "numericValue": 1737.489276449699,
+      "numericUnit": "millisecond",
+      "displayValue": "1.7 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 98,
+      "numericValue": 1724.196702213097,
+      "numericUnit": "millisecond",
+      "displayValue": "1.7 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "unused-css-rules",
+      "title": "Reduce unused CSS",
+      "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+      "displayValue": "Est savings of 50 KiB",
+      "score": 0
+    },
+    {
+      "id": "image-delivery-insight",
+      "title": "Improve image delivery",
+      "description": "Reducing the download time of images can improve the perceived load time of the page and LCP. [Learn more about optimizing image size](https://developer.chrome.com/docs/performance/insights/image-delivery)",
+      "displayValue": "Est savings of 22 KiB",
+      "score": 0
+    },
+    {
+      "id": "canonical",
+      "title": "Document does not have a valid `rel=canonical`",
+      "description": "Canonical links suggest which URL to show in search results. [Learn more about canonical links](https://developer.chrome.com/docs/lighthouse/seo/canonical/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "cache-insight",
+      "title": "Use efficient cache lifetimes",
+      "description": "A long cache lifetime can speed up repeat visits to your page. [Learn more about caching](https://developer.chrome.com/docs/performance/insights/cache).",
+      "displayValue": "Est savings of 74 KiB",
+      "score": 0
+    },
+    {
+      "id": "network-dependency-tree-insight",
+      "title": "Network dependency tree",
+      "description": "[Avoid chaining critical requests](https://developer.chrome.com/docs/performance/insights/network-dependency-tree) by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load.",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "unused-javascript",
+      "title": "Reduce unused JavaScript",
+      "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+      "displayValue": "Est savings of 147 KiB",
+      "score": 0
+    },
+    {
+      "id": "image-aspect-ratio",
+      "title": "Displays images with incorrect aspect ratio",
+      "description": "Image display dimensions should match natural aspect ratio. [Learn more about image aspect ratio](https://developer.chrome.com/docs/lighthouse/best-practices/image-aspect-ratio/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "hreflang",
+      "title": "Document doesn't have a valid `hreflang`",
+      "description": "hreflang links tell search engines what version of a page they should list in search results for a given language or region. [Learn more about `hreflang`](https://developer.chrome.com/docs/lighthouse/seo/hreflang/).",
+      "displayValue": null,
+      "score": 0
+    }
+  ]
+}

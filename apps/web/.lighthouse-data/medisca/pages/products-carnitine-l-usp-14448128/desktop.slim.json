@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.medisca.com.au/products/carnitine-l-usp",
+  "finalDisplayedUrl": "https://www.medisca.com.au/products/carnitine-l-usp-dietary-supplement-grade",
+  "fetchTime": "2026-02-15T16:53:49.401Z",
+  "formFactor": "desktop",
+  "categories": {
+    "performance": 89,
+    "accessibility": 80,
+    "bestPractices": 96,
+    "seo": 85
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 98,
+      "numericValue": 680.0347543171208,
+      "numericUnit": "millisecond",
+      "displayValue": "0.7 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 82,
+      "numericValue": 1456.0404040273118,
+      "numericUnit": "millisecond",
+      "displayValue": "1.5 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 100,
+      "numericValue": 6.499999999999886,
+      "numericUnit": "millisecond",
+      "displayValue": "10 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0.009320119065846153,
+      "numericUnit": "unitless",
+      "displayValue": "0.009"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 32,
+      "numericValue": 2807.4984759470058,
+      "numericUnit": "millisecond",
+      "displayValue": "2.8 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 99,
+      "numericValue": 1477.6457455832756,
+      "numericUnit": "millisecond",
+      "displayValue": "1.5 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "unused-css-rules",
+      "title": "Reduce unused CSS",
+      "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+      "displayValue": "Est savings of 74 KiB",
+      "score": 0
+    },
+    {
+      "id": "lcp-breakdown-insight",
+      "title": "LCP breakdown",
+      "description": "Each [subpart has specific improvement strategies](https://developer.chrome.com/docs/performance/insights/lcp-breakdown). Ideally, most of the LCP time should be spent on loading the resources, not within delays.",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "render-blocking-insight",
+      "title": "Render blocking requests",
+      "description": "Requests are blocking the page's initial render, which may delay LCP. [Deferring or inlining](https://developer.chrome.com/docs/performance/insights/render-blocking) can move these network requests out of the critical path.",
+      "displayValue": "Est savings of 190 ms",
+      "score": 0
+    },
+    {
+      "id": "image-aspect-ratio",
+      "title": "Displays images with incorrect aspect ratio",
+      "description": "Image display dimensions should match natural aspect ratio. [Learn more about image aspect ratio](https://developer.chrome.com/docs/lighthouse/best-practices/image-aspect-ratio/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "button-name",
+      "title": "Buttons do not have an accessible name",
+      "description": "When a button doesn't have an accessible name, screen readers announce it as \"button\", making it unusable for users who rely on screen readers. [Learn how to make buttons more accessible](https://dequeuniversity.com/rules/axe/4.11/button-name).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "link-name",
+      "title": "Links do not have a discernible name",
+      "description": "Link text (and alternate text for images, when used as links) that is discernible, unique, and focusable improves the navigation experience for screen reader users. [Learn how to make links accessible](https://dequeuniversity.com/rules/axe/4.11/link-name).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "aria-allowed-attr",
+      "title": "`[aria-*]` attributes do not match their roles",
+      "description": "Each ARIA `role` supports a specific subset of `aria-*` attributes. Mismatching these invalidates the `aria-*` attributes. [Learn how to match ARIA attributes to their roles](https://dequeuniversity.com/rules/axe/4.11/aria-allowed-attr).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "hreflang",
+      "title": "Document doesn't have a valid `hreflang`",
+      "description": "hreflang links tell search engines what version of a page they should list in search results for a given language or region. [Learn more about `hreflang`](https://developer.chrome.com/docs/lighthouse/seo/hreflang/).",
+      "displayValue": null,
+      "score": 0
+    }
+  ]
+}

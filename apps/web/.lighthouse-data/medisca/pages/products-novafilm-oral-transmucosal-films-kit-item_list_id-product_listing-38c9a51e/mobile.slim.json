@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.medisca.com.au/products/novafilm-oral-transmucosal-films-kit?item_list_id=product_listing",
+  "finalDisplayedUrl": "https://www.medisca.com.au/products/novafilm-oral-transmucosal-films-kit?item_list_id=product_listing",
+  "fetchTime": "2026-02-15T13:39:31.098Z",
+  "formFactor": "mobile",
+  "categories": {
+    "performance": 30,
+    "accessibility": 85,
+    "bestPractices": 73,
+    "seo": 85
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 0,
+      "numericValue": 8238.515435986314,
+      "numericUnit": "millisecond",
+      "displayValue": "8.2 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 0,
+      "numericValue": 16283.528634201393,
+      "numericUnit": "millisecond",
+      "displayValue": "16.3 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 15,
+      "numericValue": 1437,
+      "numericUnit": "millisecond",
+      "displayValue": "1,440 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0,
+      "numericUnit": "unitless",
+      "displayValue": "0"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 7,
+      "numericValue": 10633.108259847031,
+      "numericUnit": "millisecond",
+      "displayValue": "10.6 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 2,
+      "numericValue": 20512.064498884487,
+      "numericUnit": "millisecond",
+      "displayValue": "20.5 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "hreflang",
+      "title": "Document doesn't have a valid `hreflang`",
+      "description": "hreflang links tell search engines what version of a page they should list in search results for a given language or region. [Learn more about `hreflang`](https://developer.chrome.com/docs/lighthouse/seo/hreflang/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "bootup-time",
+      "title": "Reduce JavaScript execution time",
+      "description": "Consider reducing the time spent parsing, compiling, and executing JS. You may find delivering smaller JS payloads helps with this. [Learn how to reduce Javascript execution time](https://developer.chrome.com/docs/lighthouse/performance/bootup-time/).",
+      "displayValue": "3.2 s",
+      "score": 0
+    },
+    {
+      "id": "unused-css-rules",
+      "title": "Reduce unused CSS",
+      "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+      "displayValue": "Est savings of 164 KiB",
+      "score": 0
+    },
+    {
+      "id": "mainthread-work-breakdown",
+      "title": "Minimize main-thread work",
+      "description": "Consider reducing the time spent parsing, compiling and executing JS. You may find delivering smaller JS payloads helps with this. [Learn how to minimize main-thread work](https://developer.chrome.com/docs/lighthouse/performance/mainthread-work-breakdown/)",
+      "displayValue": "5.5 s",
+      "score": 0
+    },
+    {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "description": "Largest Contentful Paint marks the time at which the largest text or image is painted. [Learn more about the Largest Contentful Paint metric](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-largest-contentful-paint/)",
+      "displayValue": "16.3 s",
+      "score": 0
+    },
+    {
+      "id": "button-name",
+      "title": "Buttons do not have an accessible name",
+      "description": "When a button doesn't have an accessible name, screen readers announce it as \"button\", making it unusable for users who rely on screen readers. [Learn how to make buttons more accessible](https://dequeuniversity.com/rules/axe/4.11/button-name).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "target-size",
+      "title": "Touch targets do not have sufficient size or spacing.",
+      "description": "Touch targets with sufficient size and spacing help users who may have difficulty targeting small controls to activate the targets. [Learn more about touch targets](https://dequeuniversity.com/rules/axe/4.11/target-size).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "lcp-discovery-insight",
+      "title": "LCP request discovery",
+      "description": "[Optimize LCP](https://developer.chrome.com/docs/performance/insights/lcp-discovery) by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loading",
+      "displayValue": null,
+      "score": 0
+    }
+  ]
+}

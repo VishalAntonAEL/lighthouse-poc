@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.medisca.com.au/products/samix-std-mixing-blades-with-shaft?item_list_id=frequently_bt_product&item_list_variant=9973-01&sku=6653-01",
+  "finalDisplayedUrl": "https://www.medisca.com.au/products/samix-std-mixing-blades-with-shaft?item_list_id=frequently_bt_product&item_list_variant=9973-01&sku=6653-01",
+  "fetchTime": "2026-02-15T16:28:13.727Z",
+  "formFactor": "desktop",
+  "categories": {
+    "performance": 95,
+    "accessibility": 82,
+    "bestPractices": 96,
+    "seo": 85
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 100,
+      "numericValue": 401,
+      "numericUnit": "millisecond",
+      "displayValue": "0.4 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 94,
+      "numericValue": 1041,
+      "numericUnit": "millisecond",
+      "displayValue": "1.0 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 100,
+      "numericValue": 31,
+      "numericUnit": "millisecond",
+      "displayValue": "30 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0.00006183043368870433,
+      "numericUnit": "unitless",
+      "displayValue": "0"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 62,
+      "numericValue": 2001.9207219242514,
+      "numericUnit": "millisecond",
+      "displayValue": "2.0 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 100,
+      "numericValue": 1313.350828742981,
+      "numericUnit": "millisecond",
+      "displayValue": "1.3 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "unused-css-rules",
+      "title": "Reduce unused CSS",
+      "description": "Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. [Learn how to reduce unused CSS](https://developer.chrome.com/docs/lighthouse/performance/unused-css-rules/).",
+      "displayValue": "Est savings of 74 KiB",
+      "score": 0
+    },
+    {
+      "id": "network-dependency-tree-insight",
+      "title": "Network dependency tree",
+      "description": "[Avoid chaining critical requests](https://developer.chrome.com/docs/performance/insights/network-dependency-tree) by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load.",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "link-name",
+      "title": "Links do not have a discernible name",
+      "description": "Link text (and alternate text for images, when used as links) that is discernible, unique, and focusable improves the navigation experience for screen reader users. [Learn how to make links accessible](https://dequeuniversity.com/rules/axe/4.11/link-name).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "aria-allowed-attr",
+      "title": "`[aria-*]` attributes do not match their roles",
+      "description": "Each ARIA `role` supports a specific subset of `aria-*` attributes. Mismatching these invalidates the `aria-*` attributes. [Learn how to match ARIA attributes to their roles](https://dequeuniversity.com/rules/axe/4.11/aria-allowed-attr).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "button-name",
+      "title": "Buttons do not have an accessible name",
+      "description": "When a button doesn't have an accessible name, screen readers announce it as \"button\", making it unusable for users who rely on screen readers. [Learn how to make buttons more accessible](https://dequeuniversity.com/rules/axe/4.11/button-name).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "heading-order",
+      "title": "Heading elements are not in a sequentially-descending order",
+      "description": "Properly ordered headings that do not skip levels convey the semantic structure of the page, making it easier to navigate and understand when using assistive technologies. [Learn more about heading order](https://dequeuniversity.com/rules/axe/4.11/heading-order).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "label-content-name-mismatch",
+      "title": "Elements with visible text labels do not have matching accessible names.",
+      "description": "Visible text labels that do not match the accessible name can result in a confusing experience for screen reader users. [Learn more about accessible names](https://dequeuniversity.com/rules/axe/4.11/label-content-name-mismatch).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "font-display-insight",
+      "title": "Font display",
+      "description": "Consider setting [font-display](https://developer.chrome.com/docs/performance/insights/font-display) to swap or optional to ensure text is consistently visible. swap can be further optimized to mitigate layout shifts with [font metric overrides](https://developer.chrome.com/blog/font-fallbacks).",
+      "displayValue": "Est savings of 200 ms",
+      "score": 0
+    }
+  ]
+}

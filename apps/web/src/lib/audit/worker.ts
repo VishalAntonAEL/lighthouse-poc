@@ -6,10 +6,10 @@ import path from "node:path";
 import { buildRunManifest } from "./aggregate";
 import { processUrlBatch } from "./batch-processor";
 import { discoverUrls } from "./url-discovery";
-import { normalizeUrl } from "./normalize-url";
+import { deriveSiteSlugFromUrl, normalizeUrl } from "./normalize-url";
 import {
 	createJobDirectory,
-	publishLatestFromJob,
+	publishReportFromJob,
 	readCheckpoint,
 	readJobStatus,
 	writeCheckpoint,
@@ -57,6 +57,7 @@ async function updateStatus(
 async function run() {
 	const jobId = getArg("--job");
 	const baseUrlInput = getArg("--base");
+	const siteSlugInput = getArg("--site");
 	const maxPages = getIntArg("--max-pages", 5000);
 	const concurrency = getIntArg("--concurrency", 5);
 	const crawlConcurrency = getIntArg("--crawl-concurrency", 10);
@@ -75,13 +76,17 @@ async function run() {
 		throw new Error("Missing GOOGLE_API_KEY environment variable.");
 	}
 
-	if (!jobId || !baseUrlInput) {
-		throw new Error("Missing required args: --job and --base");
+	if (!jobId || !baseUrlInput || !siteSlugInput) {
+		throw new Error("Missing required args: --job, --base, and --site");
 	}
 
 	const normalizedBaseUrl = normalizeUrl(baseUrlInput);
 	if (!normalizedBaseUrl) {
 		throw new Error("Invalid base URL");
+	}
+	const derivedSiteSlug = deriveSiteSlugFromUrl(normalizedBaseUrl);
+	if (!derivedSiteSlug || siteSlugInput !== derivedSiteSlug) {
+		throw new Error("Invalid site slug for provided base URL.");
 	}
 
 	const runId = createRunId();
@@ -89,6 +94,7 @@ async function run() {
 
 	console.log(`[Worker] Starting audit job ${jobId}`);
 	console.log(`[Worker] Base URL: ${normalizedBaseUrl}`);
+	console.log(`[Worker] Site slug: ${siteSlugInput}`);
 	console.log(`[Worker] Max pages: ${maxPages}, Concurrency: ${concurrency}, Crawl concurrency: ${crawlConcurrency}`);
 	console.log(
 		`[Worker] Timeouts: crawl=${crawlTimeout}ms, sitemap=${sitemapTimeout}ms, audit=${lighthouseAuditTimeout}ms`,
@@ -99,6 +105,7 @@ async function run() {
 	await updateStatus(jobId, (job) => ({
 		...job,
 		baseUrl: normalizedBaseUrl,
+		siteSlug: siteSlugInput,
 		status: "running",
 		startedAt,
 		errorMessage: undefined,
@@ -209,7 +216,7 @@ async function run() {
 		});
 
 		await writeJobManifest(jobId, manifest);
-		await publishLatestFromJob(jobId);
+		await publishReportFromJob(jobId, siteSlugInput);
 		await updateStatus(jobId, (job) => ({
 			...job,
 			status: "completed",

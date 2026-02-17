@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.medisca.com.au/brand/maz-mixer/innovation-lab",
+  "finalDisplayedUrl": "https://www.medisca.com.au/brand/maz-mixer/innovation-lab",
+  "fetchTime": "2026-02-15T16:34:39.696Z",
+  "formFactor": "desktop",
+  "categories": {
+    "performance": 88,
+    "accessibility": 87,
+    "bestPractices": 92,
+    "seo": 85
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 100,
+      "numericValue": 401.67815202125394,
+      "numericUnit": "millisecond",
+      "displayValue": "0.4 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 64,
+      "numericValue": 1976.3099254278961,
+      "numericUnit": "millisecond",
+      "displayValue": "2.0 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 100,
+      "numericValue": 22,
+      "numericUnit": "millisecond",
+      "displayValue": "20 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0.0008283734502323925,
+      "numericUnit": "unitless",
+      "displayValue": "0.001"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 66,
+      "numericValue": 1903.9239274272982,
+      "numericUnit": "millisecond",
+      "displayValue": "1.9 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 96,
+      "numericValue": 1987.2484013115477,
+      "numericUnit": "millisecond",
+      "displayValue": "2.0 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "cache-insight",
+      "title": "Use efficient cache lifetimes",
+      "description": "A long cache lifetime can speed up repeat visits to your page. [Learn more about caching](https://developer.chrome.com/docs/performance/insights/cache).",
+      "displayValue": "Est savings of 74 KiB",
+      "score": 0
+    },
+    {
+      "id": "lcp-breakdown-insight",
+      "title": "LCP breakdown",
+      "description": "Each [subpart has specific improvement strategies](https://developer.chrome.com/docs/performance/insights/lcp-breakdown). Ideally, most of the LCP time should be spent on loading the resources, not within delays.",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "canonical",
+      "title": "Document does not have a valid `rel=canonical`",
+      "description": "Canonical links suggest which URL to show in search results. [Learn more about canonical links](https://developer.chrome.com/docs/lighthouse/seo/canonical/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "render-blocking-insight",
+      "title": "Render blocking requests",
+      "description": "Requests are blocking the page's initial render, which may delay LCP. [Deferring or inlining](https://developer.chrome.com/docs/performance/insights/render-blocking) can move these network requests out of the critical path.",
+      "displayValue": "Est savings of 160 ms",
+      "score": 0
+    },
+    {
+      "id": "aria-allowed-attr",
+      "title": "`[aria-*]` attributes do not match their roles",
+      "description": "Each ARIA `role` supports a specific subset of `aria-*` attributes. Mismatching these invalidates the `aria-*` attributes. [Learn how to match ARIA attributes to their roles](https://dequeuniversity.com/rules/axe/4.11/aria-allowed-attr).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "font-display-insight",
+      "title": "Font display",
+      "description": "Consider setting [font-display](https://developer.chrome.com/docs/performance/insights/font-display) to swap or optional to ensure text is consistently visible. swap can be further optimized to mitigate layout shifts with [font metric overrides](https://developer.chrome.com/blog/font-fallbacks).",
+      "displayValue": "Est savings of 210 ms",
+      "score": 0
+    },
+    {
+      "id": "link-name",
+      "title": "Links do not have a discernible name",
+      "description": "Link text (and alternate text for images, when used as links) that is discernible, unique, and focusable improves the navigation experience for screen reader users. [Learn how to make links accessible](https://dequeuniversity.com/rules/axe/4.11/link-name).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "lcp-discovery-insight",
+      "title": "LCP request discovery",
+      "description": "[Optimize LCP](https://developer.chrome.com/docs/performance/insights/lcp-discovery) by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loading",
+      "displayValue": null,
+      "score": 0
+    }
+  ]
+}

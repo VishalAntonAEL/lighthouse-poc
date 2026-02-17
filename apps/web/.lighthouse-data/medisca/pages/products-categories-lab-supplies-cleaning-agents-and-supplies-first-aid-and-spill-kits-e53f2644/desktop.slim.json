@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.medisca.com.au/products/categories/lab-supplies/cleaning-agents-and-supplies/first-aid-and-spill-kits",
+  "finalDisplayedUrl": "https://www.medisca.com.au/products/categories/lab-supplies/cleaning-agents-and-supplies/first-aid-and-spill-kits",
+  "fetchTime": "2026-02-15T13:03:30.965Z",
+  "formFactor": "desktop",
+  "categories": {
+    "performance": 95,
+    "accessibility": 70,
+    "bestPractices": 96,
+    "seo": 85
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 100,
+      "numericValue": 387.00158810369027,
+      "numericUnit": "millisecond",
+      "displayValue": "0.4 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 99,
+      "numericValue": 622.0043314043845,
+      "numericUnit": "millisecond",
+      "displayValue": "0.6 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 97,
+      "numericValue": 94.50000000000034,
+      "numericUnit": "millisecond",
+      "displayValue": "90 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0.00539880492439674,
+      "numericUnit": "unitless",
+      "displayValue": "0.005"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 60,
+      "numericValue": 2057.476514741193,
+      "numericUnit": "millisecond",
+      "displayValue": "2.1 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 99,
+      "numericValue": 1444.156746445954,
+      "numericUnit": "millisecond",
+      "displayValue": "1.4 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "target-size",
+      "title": "Touch targets do not have sufficient size or spacing.",
+      "description": "Touch targets with sufficient size and spacing help users who may have difficulty targeting small controls to activate the targets. [Learn more about touch targets](https://dequeuniversity.com/rules/axe/4.11/target-size).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "image-delivery-insight",
+      "title": "Improve image delivery",
+      "description": "Reducing the download time of images can improve the perceived load time of the page and LCP. [Learn more about optimizing image size](https://developer.chrome.com/docs/performance/insights/image-delivery)",
+      "displayValue": "Est savings of 89 KiB",
+      "score": 0
+    },
+    {
+      "id": "forced-reflow-insight",
+      "title": "Forced reflow",
+      "description": "A forced reflow occurs when JavaScript queries geometric properties (such as offsetWidth) after styles have been invalidated by a change to the DOM state. This can result in poor performance. Learn more about [forced reflows](https://developer.chrome.com/docs/performance/insights/forced-reflow) and possible mitigations.",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "aria-allowed-attr",
+      "title": "`[aria-*]` attributes do not match their roles",
+      "description": "Each ARIA `role` supports a specific subset of `aria-*` attributes. Mismatching these invalidates the `aria-*` attributes. [Learn how to match ARIA attributes to their roles](https://dequeuniversity.com/rules/axe/4.11/aria-allowed-attr).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "hreflang",
+      "title": "Document doesn't have a valid `hreflang`",
+      "description": "hreflang links tell search engines what version of a page they should list in search results for a given language or region. [Learn more about `hreflang`](https://developer.chrome.com/docs/lighthouse/seo/hreflang/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "image-aspect-ratio",
+      "title": "Displays images with incorrect aspect ratio",
+      "description": "Image display dimensions should match natural aspect ratio. [Learn more about image aspect ratio](https://developer.chrome.com/docs/lighthouse/best-practices/image-aspect-ratio/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "label",
+      "title": "Form elements do not have associated labels",
+      "description": "Labels ensure that form controls are announced properly by assistive technologies, like screen readers. [Learn more about form element labels](https://dequeuniversity.com/rules/axe/4.11/label).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "color-contrast",
+      "title": "Background and foreground colors do not have a sufficient contrast ratio.",
+      "description": "Low-contrast text is difficult or impossible for many users to read. [Learn how to provide sufficient color contrast](https://dequeuniversity.com/rules/axe/4.11/color-contrast).",
+      "displayValue": null,
+      "score": 0
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.medisca.com.au/products/magnesium-glycinate-20-w-w-magnesium-dietary-supplement-grade?item_list_id=frequently_bt_product&item_list_variant=2458-02&sku=2856-09",
+  "finalDisplayedUrl": "https://www.medisca.com.au/products/magnesium-glycinate-20-w-w-magnesium-dietary-supplement-grade?item_list_id=frequently_bt_product&item_list_variant=2458-02&sku=2856-09",
+  "fetchTime": "2026-02-15T13:57:38.259Z",
+  "formFactor": "desktop",
+  "categories": {
+    "performance": 93,
+    "accessibility": 80,
+    "bestPractices": 96,
+    "seo": 85
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 100,
+      "numericValue": 401,
+      "numericUnit": "millisecond",
+      "displayValue": "0.4 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 93,
+      "numericValue": 1081,
+      "numericUnit": "millisecond",
+      "displayValue": "1.1 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 99,
+      "numericValue": 69,
+      "numericUnit": "millisecond",
+      "displayValue": "70 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0.002778573161745284,
+      "numericUnit": "unitless",
+      "displayValue": "0.003"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 49,
+      "numericValue": 2317.0598887410065,
+      "numericUnit": "millisecond",
+      "displayValue": "2.3 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 100,
+      "numericValue": 1330.1008339881898,
+      "numericUnit": "millisecond",
+      "displayValue": "1.3 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "aria-allowed-attr",
+      "title": "`[aria-*]` attributes do not match their roles",
+      "description": "Each ARIA `role` supports a specific subset of `aria-*` attributes. Mismatching these invalidates the `aria-*` attributes. [Learn how to match ARIA attributes to their roles](https://dequeuniversity.com/rules/axe/4.11/aria-allowed-attr).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "image-aspect-ratio",
+      "title": "Displays images with incorrect aspect ratio",
+      "description": "Image display dimensions should match natural aspect ratio. [Learn more about image aspect ratio](https://developer.chrome.com/docs/lighthouse/best-practices/image-aspect-ratio/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "render-blocking-insight",
+      "title": "Render blocking requests",
+      "description": "Requests are blocking the page's initial render, which may delay LCP. [Deferring or inlining](https://developer.chrome.com/docs/performance/insights/render-blocking) can move these network requests out of the critical path.",
+      "displayValue": "Est savings of 150 ms",
+      "score": 0
+    },
+    {
+      "id": "legacy-javascript-insight",
+      "title": "Legacy JavaScript",
+      "description": "Polyfills and transforms enable older browsers to use new JavaScript features. However, many aren't necessary for modern browsers. Consider modifying your JavaScript build process to not transpile [Baseline](https://web.dev/articles/baseline-and-polyfills) features, unless you know you must support older browsers. [Learn why most sites can deploy ES6+ code without transpiling](https://developer.chrome.com/docs/performance/insights/legacy-javascript)",
+      "displayValue": "Est savings of 20 KiB",
+      "score": 0
+    },
+    {
+      "id": "lcp-discovery-insight",
+      "title": "LCP request discovery",
+      "description": "[Optimize LCP](https://developer.chrome.com/docs/performance/insights/lcp-discovery) by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loading",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "unused-javascript",
+      "title": "Reduce unused JavaScript",
+      "description": "Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. [Learn how to reduce unused JavaScript](https://developer.chrome.com/docs/lighthouse/performance/unused-javascript/).",
+      "displayValue": "Est savings of 188 KiB",
+      "score": 0
+    },
+    {
+      "id": "aria-valid-attr-value",
+      "title": "`[aria-*]` attributes do not have valid values",
+      "description": "Assistive technologies, like screen readers, can't interpret ARIA attributes with invalid values. [Learn more about valid values for ARIA attributes](https://dequeuniversity.com/rules/axe/4.11/aria-valid-attr-value).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "forced-reflow-insight",
+      "title": "Forced reflow",
+      "description": "A forced reflow occurs when JavaScript queries geometric properties (such as offsetWidth) after styles have been invalidated by a change to the DOM state. This can result in poor performance. Learn more about [forced reflows](https://developer.chrome.com/docs/performance/insights/forced-reflow) and possible mitigations.",
+      "displayValue": null,
+      "score": 0
+    }
+  ]
+}

@@ -80,6 +80,29 @@ export function getRegistrableDomain(rawUrl: string) {
 	}
 }
 
+function sanitizeSiteSlug(value: string) {
+	return value
+		.toLowerCase()
+		.replace(/[^a-z0-9-]+/g, "-")
+		.replace(/-+/g, "-")
+		.replace(/^-|-$/g, "");
+}
+
+export function deriveSiteSlugFromUrl(rawUrl: string) {
+	const registrableDomain = getRegistrableDomain(rawUrl);
+	if (!registrableDomain) {
+		return null;
+	}
+
+	const rootToken = registrableDomain.split(".")[0] ?? "";
+	const siteSlug = sanitizeSiteSlug(rootToken);
+	if (!siteSlug) {
+		return null;
+	}
+
+	return siteSlug;
+}
+
 /**
  * Allow same registrable domain and "regional" sibling domains.
  * E.g. when base is medisca.com, allow medisca.com.au, medisca.co.uk, etc.,

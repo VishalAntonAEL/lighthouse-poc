@@ -1,0 +1,120 @@
+{
+  "requestedUrl": "https://www.medisca.com.au/login?callbackUrl=%252Fproducts%252Fcategories%252Fcapsules%253Ffilter.t.brands%253Dconi-snap%25252Cmd%2526filter.t.capsule-size%253D2",
+  "finalDisplayedUrl": "https://www.medisca.com.au/login?callbackUrl=%252Fproducts%252Fcategories%252Fcapsules%253Ffilter.t.brands%253Dconi-snap%25252Cmd%2526filter.t.capsule-size%253D2",
+  "fetchTime": "2026-02-15T16:36:04.718Z",
+  "formFactor": "desktop",
+  "categories": {
+    "performance": 54,
+    "accessibility": 87,
+    "bestPractices": 96,
+    "seo": 85
+  },
+  "metrics": {
+    "fcp": {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 100,
+      "numericValue": 480.0050142926224,
+      "numericUnit": "millisecond",
+      "displayValue": "0.5 s"
+    },
+    "lcp": {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 45,
+      "numericValue": 2552.413122917006,
+      "numericUnit": "millisecond",
+      "displayValue": "2.6 s"
+    },
+    "tbt": {
+      "id": "total-blocking-time",
+      "title": "Total Blocking Time",
+      "score": 20,
+      "numericValue": 599.8481619721996,
+      "numericUnit": "millisecond",
+      "displayValue": "600 ms"
+    },
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0.000028663668382487465,
+      "numericUnit": "unitless",
+      "displayValue": "0"
+    },
+    "si": {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 22,
+      "numericValue": 3185.55069976836,
+      "numericUnit": "millisecond",
+      "displayValue": "3.2 s"
+    },
+    "tti": {
+      "id": "interactive",
+      "title": "Time to Interactive",
+      "score": 87,
+      "numericValue": 2652.9768865497044,
+      "numericUnit": "millisecond",
+      "displayValue": "2.7 s"
+    }
+  },
+  "opportunities": [
+    {
+      "id": "mainthread-work-breakdown",
+      "title": "Minimize main-thread work",
+      "description": "Consider reducing the time spent parsing, compiling and executing JS. You may find delivering smaller JS payloads helps with this. [Learn how to minimize main-thread work](https://developer.chrome.com/docs/lighthouse/performance/mainthread-work-breakdown/)",
+      "displayValue": "3.0 s",
+      "score": 0
+    },
+    {
+      "id": "canonical",
+      "title": "Document does not have a valid `rel=canonical`",
+      "description": "Canonical links suggest which URL to show in search results. [Learn more about canonical links](https://developer.chrome.com/docs/lighthouse/seo/canonical/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "cache-insight",
+      "title": "Use efficient cache lifetimes",
+      "description": "A long cache lifetime can speed up repeat visits to your page. [Learn more about caching](https://developer.chrome.com/docs/performance/insights/cache).",
+      "displayValue": "Est savings of 74 KiB",
+      "score": 0
+    },
+    {
+      "id": "aria-allowed-attr",
+      "title": "`[aria-*]` attributes do not match their roles",
+      "description": "Each ARIA `role` supports a specific subset of `aria-*` attributes. Mismatching these invalidates the `aria-*` attributes. [Learn how to match ARIA attributes to their roles](https://dequeuniversity.com/rules/axe/4.11/aria-allowed-attr).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "forced-reflow-insight",
+      "title": "Forced reflow",
+      "description": "A forced reflow occurs when JavaScript queries geometric properties (such as offsetWidth) after styles have been invalidated by a change to the DOM state. This can result in poor performance. Learn more about [forced reflows](https://developer.chrome.com/docs/performance/insights/forced-reflow) and possible mitigations.",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "network-dependency-tree-insight",
+      "title": "Network dependency tree",
+      "description": "[Avoid chaining critical requests](https://developer.chrome.com/docs/performance/insights/network-dependency-tree) by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load.",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "render-blocking-insight",
+      "title": "Render blocking requests",
+      "description": "Requests are blocking the page's initial render, which may delay LCP. [Deferring or inlining](https://developer.chrome.com/docs/performance/insights/render-blocking) can move these network requests out of the critical path.",
+      "displayValue": "Est savings of 40 ms",
+      "score": 0
+    },
+    {
+      "id": "font-display-insight",
+      "title": "Font display",
+      "description": "Consider setting [font-display](https://developer.chrome.com/docs/performance/insights/font-display) to swap or optional to ensure text is consistently visible. swap can be further optimized to mitigate layout shifts with [font metric overrides](https://developer.chrome.com/blog/font-fallbacks).",
+      "displayValue": "Est savings of 990 ms",
+      "score": 0
+    }
+  ]
+}

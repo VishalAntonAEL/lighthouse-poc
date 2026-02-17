@@ -5,13 +5,14 @@ import { randomUUID } from "node:crypto";
 
 import { z } from "zod";
 
-import { normalizeUrl } from "@/lib/audit/normalize-url";
+import { deriveSiteSlugFromUrl, normalizeUrl } from "@/lib/audit/normalize-url";
 import {
 	ensureAuditDataDirectories,
 	findActiveJob,
 	getWorkerEntrypoint,
 	readJobStatus,
-	readLatestManifest,
+	readReportManifest,
+	reportFolderExists,
 	writeJobStatus,
 } from "@/lib/audit/storage";
 import type { AuditJob, AuditRunManifest } from "@/lib/audit/types";
@@ -25,14 +26,28 @@ const statusInputSchema = z.object({
 	jobId: z.string().min(1),
 });
 
+const reportInputSchema = z.object({
+	siteSlug: z.string().min(1),
+});
+
 export async function startAuditRunAction(input: {
 	baseUrl: string;
 	maxPages?: number;
-}): Promise<{ jobId: string; status: "queued" | "running" }> {
+}): Promise<{ jobId: string; siteSlug: string; status: "queued" | "running" }> {
 	const parsed = startInputSchema.parse(input);
 	const normalizedBaseUrl = normalizeUrl(parsed.baseUrl);
 	if (!normalizedBaseUrl) {
 		throw new Error("Please provide a valid URL including protocol.");
+	}
+	const siteSlug = deriveSiteSlugFromUrl(normalizedBaseUrl);
+	if (!siteSlug) {
+		throw new Error("Unable to derive a site slug from this URL.");
+	}
+
+	if (await reportFolderExists(siteSlug)) {
+		throw new Error(
+			`Report already exists for "${siteSlug}". Use a different site URL.`,
+		);
 	}
 
 	await ensureAuditDataDirectories();
@@ -40,6 +55,7 @@ export async function startAuditRunAction(input: {
 	if (active) {
 		return {
 			jobId: active.jobId,
+			siteSlug: active.siteSlug,
 			status: active.status === "queued" ? "queued" : "running",
 		};
 	}
@@ -51,6 +67,7 @@ export async function startAuditRunAction(input: {
 	const initialStatus: AuditJob = {
 		jobId,
 		baseUrl: normalizedBaseUrl,
+		siteSlug,
 		status: "queued",
 		progress: {
 			discovered: 0,
@@ -73,6 +90,8 @@ export async function startAuditRunAction(input: {
 			jobId,
 			"--base",
 			normalizedBaseUrl,
+			"--site",
+			siteSlug,
 			"--max-pages",
 			String(maxPages),
 			"--concurrency",
@@ -89,6 +108,7 @@ export async function startAuditRunAction(input: {
 
 	return {
 		jobId,
+		siteSlug,
 		status: "queued",
 	};
 }
@@ -105,6 +125,9 @@ export async function getAuditStatusAction(input: {
 	return status;
 }
 
-export async function getLatestManifestAction(): Promise<AuditRunManifest | null> {
-	return await readLatestManifest();
+export async function getReportManifestAction(input: {
+	siteSlug: string;
+}): Promise<AuditRunManifest | null> {
+	const { siteSlug } = reportInputSchema.parse(input);
+	return await readReportManifest(siteSlug);
 }

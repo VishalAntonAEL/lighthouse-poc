@@ -8,7 +8,7 @@
 !.yarn/releases
 !.yarn/versions
 
-.lighthouse-data/*
+.lighthouse-data/jobs/*
 
 # Testing
 /coverage

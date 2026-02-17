@@ -1,0 +1,557 @@
+{
+  "desktop": {
+    "key": {
+      "formFactor": "DESKTOP",
+      "origin": "https://www.medisca.com"
+    },
+    "metrics": {
+      "largest_contentful_paint_image_resource_load_duration": {
+        "percentiles": {
+          "p75": 85
+        }
+      },
+      "round_trip_time": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 75,
+            "density": 0.8263
+          },
+          {
+            "start": 75,
+            "end": 275,
+            "density": 0.1699
+          },
+          {
+            "start": 275,
+            "density": 0.0038
+          }
+        ],
+        "percentiles": {
+          "p75": 66
+        }
+      },
+      "experimental_time_to_first_byte": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 800,
+            "density": 0.4109
+          },
+          {
+            "start": 800,
+            "end": 1800,
+            "density": 0.2148
+          },
+          {
+            "start": 1800,
+            "density": 0.3743
+          }
+        ],
+        "percentiles": {
+          "p75": 2707
+        }
+      },
+      "largest_contentful_paint_image_element_render_delay": {
+        "percentiles": {
+          "p75": 93
+        }
+      },
+      "largest_contentful_paint_image_resource_load_delay": {
+        "percentiles": {
+          "p75": 154
+        }
+      },
+      "largest_contentful_paint_image_time_to_first_byte": {
+        "percentiles": {
+          "p75": 2662
+        }
+      },
+      "largest_contentful_paint_resource_type": {
+        "fractions": {
+          "image": 0.8688,
+          "text": 0.1312
+        }
+      },
+      "navigation_types": {
+        "fractions": {
+          "restore": 0.0104,
+          "back_forward": 0.0247,
+          "back_forward_cache": 0,
+          "prerender": 0.0594,
+          "navigate": 0.8901,
+          "navigate_cache": 0,
+          "reload": 0.0154
+        }
+      },
+      "cumulative_layout_shift": {
+        "histogram": [
+          {
+            "start": "0.00",
+            "end": "0.10",
+            "density": 0.8917
+          },
+          {
+            "start": "0.10",
+            "end": "0.25",
+            "density": 0.0917
+          },
+          {
+            "start": "0.25",
+            "density": 0.0166
+          }
+        ],
+        "percentiles": {
+          "p75": "0.03"
+        }
+      },
+      "first_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 1800,
+            "density": 0.6185
+          },
+          {
+            "start": 1800,
+            "end": 3000,
+            "density": 0.1621
+          },
+          {
+            "start": 3000,
+            "density": 0.2194
+          }
+        ],
+        "percentiles": {
+          "p75": 2746
+        }
+      },
+      "interaction_to_next_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 200,
+            "density": 0.9819
+          },
+          {
+            "start": 200,
+            "end": 500,
+            "density": 0.0115
+          },
+          {
+            "start": 500,
+            "density": 0.0065
+          }
+        ],
+        "percentiles": {
+          "p75": 53
+        }
+      },
+      "largest_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 2500,
+            "density": 0.6976
+          },
+          {
+            "start": 2500,
+            "end": 4000,
+            "density": 0.1632
+          },
+          {
+            "start": 4000,
+            "density": 0.1392
+          }
+        ],
+        "percentiles": {
+          "p75": 2897
+        }
+      }
+    },
+    "collectionPeriod": {
+      "firstDate": {
+        "year": 2026,
+        "month": 1,
+        "day": 17
+      },
+      "lastDate": {
+        "year": 2026,
+        "month": 2,
+        "day": 13
+      }
+    }
+  },
+  "mobile": {
+    "key": {
+      "formFactor": "PHONE",
+      "origin": "https://www.medisca.com"
+    },
+    "metrics": {
+      "largest_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 2500,
+            "density": 0.7594
+          },
+          {
+            "start": 2500,
+            "end": 4000,
+            "density": 0.1375
+          },
+          {
+            "start": 4000,
+            "density": 0.1031
+          }
+        ],
+        "percentiles": {
+          "p75": 2454
+        }
+      },
+      "largest_contentful_paint_image_element_render_delay": {
+        "percentiles": {
+          "p75": 117
+        }
+      },
+      "largest_contentful_paint_image_time_to_first_byte": {
+        "percentiles": {
+          "p75": 1319
+        }
+      },
+      "experimental_time_to_first_byte": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 800,
+            "density": 0.4862
+          },
+          {
+            "start": 800,
+            "end": 1800,
+            "density": 0.3446
+          },
+          {
+            "start": 1800,
+            "density": 0.1692
+          }
+        ],
+        "percentiles": {
+          "p75": 1447
+        }
+      },
+      "interaction_to_next_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 200,
+            "density": 0.8804
+          },
+          {
+            "start": 200,
+            "end": 500,
+            "density": 0.0957
+          },
+          {
+            "start": 500,
+            "density": 0.0239
+          }
+        ],
+        "percentiles": {
+          "p75": 137
+        }
+      },
+      "largest_contentful_paint_image_resource_load_delay": {
+        "percentiles": {
+          "p75": 535
+        }
+      },
+      "largest_contentful_paint_image_resource_load_duration": {
+        "percentiles": {
+          "p75": 372
+        }
+      },
+      "largest_contentful_paint_resource_type": {
+        "fractions": {
+          "text": 0.3717,
+          "image": 0.6283
+        }
+      },
+      "navigation_types": {
+        "fractions": {
+          "prerender": 0,
+          "navigate": 0.8525,
+          "navigate_cache": 0,
+          "reload": 0.0393,
+          "restore": 0,
+          "back_forward": 0.1082,
+          "back_forward_cache": 0
+        }
+      },
+      "round_trip_time": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 75,
+            "density": 0.3593
+          },
+          {
+            "start": 75,
+            "end": 275,
+            "density": 0.5797
+          },
+          {
+            "start": 275,
+            "density": 0.061
+          }
+        ],
+        "percentiles": {
+          "p75": 139
+        }
+      },
+      "cumulative_layout_shift": {
+        "histogram": [
+          {
+            "start": "0.00",
+            "end": "0.10",
+            "density": 0.9646
+          },
+          {
+            "start": "0.10",
+            "end": "0.25",
+            "density": 0.0193
+          },
+          {
+            "start": "0.25",
+            "density": 0.0161
+          }
+        ],
+        "percentiles": {
+          "p75": "0.00"
+        }
+      },
+      "first_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 1800,
+            "density": 0.6744
+          },
+          {
+            "start": 1800,
+            "end": 3000,
+            "density": 0.196
+          },
+          {
+            "start": 3000,
+            "density": 0.1296
+          }
+        ],
+        "percentiles": {
+          "p75": 2088
+        }
+      }
+    },
+    "collectionPeriod": {
+      "firstDate": {
+        "year": 2026,
+        "month": 1,
+        "day": 17
+      },
+      "lastDate": {
+        "year": 2026,
+        "month": 2,
+        "day": 13
+      }
+    }
+  },
+  "combined": {
+    "key": {
+      "origin": "https://www.medisca.com"
+    },
+    "metrics": {
+      "largest_contentful_paint_image_time_to_first_byte": {
+        "percentiles": {
+          "p75": 2625
+        }
+      },
+      "largest_contentful_paint_resource_type": {
+        "fractions": {
+          "text": 0.1394,
+          "image": 0.8606
+        }
+      },
+      "cumulative_layout_shift": {
+        "histogram": [
+          {
+            "start": "0.00",
+            "end": "0.10",
+            "density": 0.894
+          },
+          {
+            "start": "0.10",
+            "end": "0.25",
+            "density": 0.0894
+          },
+          {
+            "start": "0.25",
+            "density": 0.0166
+          }
+        ],
+        "percentiles": {
+          "p75": "0.03"
+        }
+      },
+      "first_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 1800,
+            "density": 0.6205
+          },
+          {
+            "start": 1800,
+            "end": 3000,
+            "density": 0.1631
+          },
+          {
+            "start": 3000,
+            "density": 0.2164
+          }
+        ],
+        "percentiles": {
+          "p75": 2716
+        }
+      },
+      "interaction_to_next_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 200,
+            "density": 0.9799
+          },
+          {
+            "start": 200,
+            "end": 500,
+            "density": 0.0134
+          },
+          {
+            "start": 500,
+            "density": 0.0067
+          }
+        ],
+        "percentiles": {
+          "p75": 54
+        }
+      },
+      "navigation_types": {
+        "fractions": {
+          "reload": 0.016,
+          "restore": 0.0101,
+          "back_forward": 0.0273,
+          "back_forward_cache": 0,
+          "prerender": 0.0576,
+          "navigate": 0.889,
+          "navigate_cache": 0
+        }
+      },
+      "round_trip_time": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 75,
+            "density": 0.8128
+          },
+          {
+            "start": 75,
+            "end": 275,
+            "density": 0.182
+          },
+          {
+            "start": 275,
+            "density": 0.0052
+          }
+        ],
+        "percentiles": {
+          "p75": 68
+        }
+      },
+      "experimental_time_to_first_byte": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 800,
+            "density": 0.4133
+          },
+          {
+            "start": 800,
+            "end": 1800,
+            "density": 0.219
+          },
+          {
+            "start": 1800,
+            "density": 0.3676
+          }
+        ],
+        "percentiles": {
+          "p75": 2657
+        }
+      },
+      "form_factors": {
+        "fractions": {
+          "desktop": 0.9703,
+          "phone": 0.0297,
+          "tablet": 0
+        }
+      },
+      "largest_contentful_paint": {
+        "histogram": [
+          {
+            "start": 0,
+            "end": 2500,
+            "density": 0.6996
+          },
+          {
+            "start": 2500,
+            "end": 4000,
+            "density": 0.1625
+          },
+          {
+            "start": 4000,
+            "density": 0.138
+          }
+        ],
+        "percentiles": {
+          "p75": 2878
+        }
+      },
+      "largest_contentful_paint_image_element_render_delay": {
+        "percentiles": {
+          "p75": 93
+        }
+      },
+      "largest_contentful_paint_image_resource_load_delay": {
+        "percentiles": {
+          "p75": 160
+        }
+      },
+      "largest_contentful_paint_image_resource_load_duration": {
+        "percentiles": {
+          "p75": 88
+        }
+      }
+    },
+    "collectionPeriod": {
+      "firstDate": {
+        "year": 2026,
+        "month": 1,
+        "day": 17
+      },
+      "lastDate": {
+        "year": 2026,
+        "month": 2,
+        "day": 13
+      }
+    }
+  }
+}

@@ -19,6 +19,7 @@ import type { AuditJobStatus, AuditProgress } from "@/lib/audit/types";
 
 type JobState = {
 	jobId: string;
+	siteSlug: string;
 	status: AuditJobStatus;
 	progress: AuditProgress;
 	startedAt: string;
@@ -173,8 +174,11 @@ export default function Home() {
 							) : null}
 
 							{jobState.status === "completed" ? (
-								<a href="/report/latest" className="text-xs underline">
-									Open latest report
+								<a
+									href={`/report/${jobState.siteSlug}`}
+									className="text-xs underline"
+								>
+									Open site report
 								</a>
 							) : null}
 						</>

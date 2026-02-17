@@ -1,14 +1,18 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
+import { deriveSiteSlugFromUrl } from "./normalize-url";
 import type { AuditJob, AuditRunManifest, Checkpoint, SlimLhr } from "./types";
 
 export const AUDIT_DATA_ROOT = path.join(process.cwd(), ".lighthouse-data");
 export const AUDIT_JOBS_ROOT = path.join(AUDIT_DATA_ROOT, "jobs");
-export const AUDIT_LATEST_ROOT = path.join(AUDIT_DATA_ROOT, "latest");
 
 function asJobPath(jobId: string) {
 	return path.join(AUDIT_JOBS_ROOT, jobId);
+}
+
+export function getReportRoot(siteSlug: string) {
+	return path.join(AUDIT_DATA_ROOT, siteSlug);
 }
 
 export function getWorkerEntrypoint() {
@@ -59,7 +63,19 @@ export async function writeJobStatus(status: AuditJob) {
 export async function readJobStatus(jobId: string) {
 	try {
 		const data = await fs.readFile(getJobStatusPath(jobId), "utf8");
-		return JSON.parse(data) as AuditJob;
+		const status = JSON.parse(data) as Partial<AuditJob> & { baseUrl?: string };
+		if (typeof status.siteSlug === "string" && status.siteSlug.length > 0) {
+			return status as AuditJob;
+		}
+
+		const fallbackSiteSlug =
+			(typeof status.baseUrl === "string" &&
+				deriveSiteSlugFromUrl(status.baseUrl)) ||
+			"unknown-site";
+		return {
+			...(status as AuditJob),
+			siteSlug: fallbackSiteSlug,
+		};
 	} catch {
 		return null;
 	}
@@ -96,20 +112,46 @@ export async function writeJobManifest(
 	);
 }
 
-export async function publishLatestFromJob(jobId: string) {
+export function isValidSiteSlug(input: string) {
+	return /^[a-z0-9-]+$/.test(input);
+}
+
+export async function reportFolderExists(siteSlug: string) {
+	if (!isValidSiteSlug(siteSlug)) {
+		return false;
+	}
+
+	try {
+		const stat = await fs.stat(getReportRoot(siteSlug));
+		return stat.isDirectory();
+	} catch {
+		return false;
+	}
+}
+
+export async function publishReportFromJob(jobId: string, siteSlug: string) {
+	if (!isValidSiteSlug(siteSlug)) {
+		throw new Error("Invalid site slug.");
+	}
+
 	const source = asJobPath(jobId);
-	const staging = `${AUDIT_LATEST_ROOT}.staging`;
+	const reportRoot = getReportRoot(siteSlug);
+	const staging = `${reportRoot}.staging`;
 
 	await fs.rm(staging, { recursive: true, force: true });
 	await fs.cp(source, staging, { recursive: true });
-	await fs.rm(AUDIT_LATEST_ROOT, { recursive: true, force: true });
-	await fs.rename(staging, AUDIT_LATEST_ROOT);
+	await fs.rm(reportRoot, { recursive: true, force: true });
+	await fs.rename(staging, reportRoot);
 }
 
-export async function readLatestManifest() {
+export async function readReportManifest(siteSlug: string) {
+	if (!isValidSiteSlug(siteSlug)) {
+		return null;
+	}
+
 	try {
 		const data = await fs.readFile(
-			path.join(AUDIT_LATEST_ROOT, "manifest.json"),
+			path.join(getReportRoot(siteSlug), "manifest.json"),
 			"utf8",
 		);
 		return JSON.parse(data) as AuditRunManifest;
@@ -148,16 +190,17 @@ export async function writeCheckpoint(
 	);
 }
 
-export async function readLatestSlimLhr(
+export async function readReportSlimLhr(
+	siteSlug: string,
 	slug: string,
 	device: "desktop" | "mobile",
 ): Promise<SlimLhr | null> {
-	if (!isValidSlug(slug)) {
+	if (!isValidSiteSlug(siteSlug) || !isValidSlug(slug)) {
 		return null;
 	}
 
 	const artifactPath = path.join(
-		AUDIT_LATEST_ROOT,
+		getReportRoot(siteSlug),
 		"pages",
 		slug,
 		`${device}.slim.json`,

@@ -176,6 +176,7 @@ export type AuditRunManifest = {
 export type AuditJob = {
 	jobId: string;
 	baseUrl: string;
+	siteSlug: string;
 	status: AuditJobStatus;
 	progress: AuditProgress;
 	startedAt: string;

@@ -1,0 +1,13 @@
+{
+  "jobId": "f92ed6ce-de2c-404d-a1dd-386576c080d5",
+  "baseUrl": "https://www.medisca.com/",
+  "status": "running",
+  "progress": {
+    "discovered": 2322,
+    "crawled": 932,
+    "audited": 2322,
+    "totalTarget": 2322
+  },
+  "startedAt": "2026-02-15T11:53:29.103Z",
+  "finishedAt": null
+}

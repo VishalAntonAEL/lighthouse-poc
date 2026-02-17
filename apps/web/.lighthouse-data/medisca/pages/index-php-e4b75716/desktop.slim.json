@@ -1,0 +1,85 @@
+{
+  "requestedUrl": "https://csos.medisca.com/index.php",
+  "finalDisplayedUrl": "https://csos.medisca.com/index.php",
+  "fetchTime": "2026-02-15T17:20:21.739Z",
+  "formFactor": "desktop",
+  "categories": {
+    "performance": null,
+    "accessibility": 0,
+    "bestPractices": 96,
+    "seo": 80
+  },
+  "metrics": {
+    "fcp": null,
+    "lcp": null,
+    "tbt": null,
+    "cls": {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 100,
+      "numericValue": 0,
+      "numericUnit": "unitless",
+      "displayValue": "0"
+    },
+    "si": null,
+    "tti": null
+  },
+  "opportunities": [
+    {
+      "id": "image-delivery-insight",
+      "title": "Improve image delivery",
+      "description": "Reducing the download time of images can improve the perceived load time of the page and LCP. [Learn more about optimizing image size](https://developer.chrome.com/docs/performance/insights/image-delivery)",
+      "displayValue": "Est savings of 183 KiB",
+      "score": 0
+    },
+    {
+      "id": "cache-insight",
+      "title": "Use efficient cache lifetimes",
+      "description": "A long cache lifetime can speed up repeat visits to your page. [Learn more about caching](https://developer.chrome.com/docs/performance/insights/cache).",
+      "displayValue": "Est savings of 30 KiB",
+      "score": 0
+    },
+    {
+      "id": "meta-description",
+      "title": "Document does not have a meta description",
+      "description": "Meta descriptions may be included in search results to concisely summarize page content. [Learn more about the meta description](https://developer.chrome.com/docs/lighthouse/seo/meta-description/).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "landmark-one-main",
+      "title": "Document does not have a main landmark.",
+      "description": "One main landmark helps screen reader users navigate a web page. [Learn more about landmarks](https://dequeuniversity.com/rules/axe/4.11/landmark-one-main).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "document-title",
+      "title": "Document doesn't have a `<title>` element",
+      "description": "The title gives screen reader users an overview of the page, and search engine users rely on it heavily to determine if a page is relevant to their search. [Learn more about document titles](https://dequeuniversity.com/rules/axe/4.11/document-title).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "frame-title",
+      "title": "`<frame>` or `<iframe>` elements do not have a title",
+      "description": "Screen reader users rely on frame titles to describe the contents of frames. [Learn more about frame titles](https://dequeuniversity.com/rules/axe/4.11/frame-title).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "html-has-lang",
+      "title": "`<html>` element does not have a `[lang]` attribute",
+      "description": "If a page doesn't specify a `lang` attribute, a screen reader assumes that the page is in the default language that the user chose when setting up the screen reader. If the page isn't actually in the default language, then the screen reader might not announce the page's text correctly. [Learn more about the `lang` attribute](https://dequeuniversity.com/rules/axe/4.11/html-has-lang).",
+      "displayValue": null,
+      "score": 0
+    },
+    {
+      "id": "doctype",
+      "title": "Page lacks the HTML doctype, thus triggering quirks-mode",
+      "description": "Specifying a doctype prevents the browser from switching to quirks-mode. [Learn more about the doctype declaration](https://developer.chrome.com/docs/lighthouse/best-practices/doctype/).",
+      "displayValue": null,
+      "score": 0
+    }
+  ]
+}
