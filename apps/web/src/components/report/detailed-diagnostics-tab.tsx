@@ -1,11 +1,8 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
 
 import CruxSection from "@/components/report/crux-section";
 import CruxTrends from "@/components/report/crux-trends";
-import PageDrilldown from "@/components/report/page-drilldown";
-import { resolveDrilldownPage } from "@/components/report/report-page-utils";
 import RunMeta from "@/components/report/run-meta";
 import UrlTable from "@/components/report/url-table";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +11,7 @@ import type { AuditRunManifest } from "@/lib/audit/types";
 
 type DetailedDiagnosticsTabProps = {
 	manifest: AuditRunManifest;
+	siteSlug: string;
 	selectedSlug: string | null;
 	onSelectSlug: (slug: string) => void;
 };
@@ -64,23 +62,11 @@ function OriginInsightsCard({ manifest }: { manifest: AuditRunManifest }) {
 
 export default function DetailedDiagnosticsTab({
 	manifest,
+	siteSlug,
 	selectedSlug,
 	onSelectSlug,
 }: DetailedDiagnosticsTabProps) {
-	const selectedPage = useMemo(() => {
-		return manifest.pages.find((page) => page.slug === selectedSlug) ?? null;
-	}, [manifest.pages, selectedSlug]);
-	const drilldownPage = useMemo(
-		() => resolveDrilldownPage(manifest.pages, selectedSlug),
-		[manifest.pages, selectedSlug],
-	);
 	const showTrendChart = hasCruxTrendData(manifest);
-
-	useEffect(() => {
-		if (drilldownPage && drilldownPage.slug !== selectedSlug) {
-			onSelectSlug(drilldownPage.slug);
-		}
-	}, [drilldownPage, selectedSlug, onSelectSlug]);
 
 	return (
 		<div className="grid gap-4">
@@ -114,11 +100,9 @@ export default function DetailedDiagnosticsTab({
 				pages={manifest.pages}
 				selectedSlug={selectedSlug}
 				onSelect={(page) => onSelectSlug(page.slug)}
-			/>
-
-			<PageDrilldown
-				page={drilldownPage ?? selectedPage}
-				originCrux={manifest.originCrux}
+				getPageHref={(page) =>
+					`/report/${siteSlug}/page/${page.slug}`
+				}
 			/>
 		</div>
 	);

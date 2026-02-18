@@ -22,6 +22,8 @@ type UrlTableProps = {
 	pages: AuditPageResult[];
 	selectedSlug: string | null;
 	onSelect: (page: AuditPageResult) => void;
+	/** When provided, each row renders as an anchor link to this href. */
+	getPageHref?: (page: AuditPageResult) => string;
 };
 
 function getPerformanceScore(
@@ -35,6 +37,7 @@ export default function UrlTable({
 	pages,
 	selectedSlug,
 	onSelect,
+	getPageHref,
 }: UrlTableProps) {
 	const [query, setQuery] = useState("");
 	const [sortBy, setSortBy] = useState("worst");
@@ -148,14 +151,31 @@ export default function UrlTable({
 					<TableBody>
 						{pagedRows.map((page) => {
 							const isSelected = page.slug === selectedSlug;
+							const href = getPageHref ? getPageHref(page) : undefined;
 							return (
 								<TableRow
 									key={page.slug}
-									onClick={() => onSelect(page)}
+									onClick={() => {
+										if (href) {
+											window.location.href = href;
+										} else {
+											onSelect(page);
+										}
+									}}
 									className={isSelected ? "bg-muted" : "cursor-pointer"}
 								>
 									<TableCell className="max-w-[24rem] truncate">
-										{page.url}
+										{href ? (
+											<a
+												href={href}
+												className="hover:underline"
+												onClick={(e) => e.stopPropagation()}
+											>
+												{page.url}
+											</a>
+										) : (
+											page.url
+										)}
 									</TableCell>
 									<TableCell>
 										<Badge

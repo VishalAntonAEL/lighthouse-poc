@@ -176,6 +176,7 @@ export default function SiteReportView({ siteSlug }: SiteReportViewProps) {
 				<TabsContent value="detailed" className="grid gap-4">
 					<DetailedDiagnosticsTab
 						manifest={manifest}
+						siteSlug={siteSlug}
 						selectedSlug={selectedSlug}
 						onSelectSlug={setSelectedSlug}
 					/>
